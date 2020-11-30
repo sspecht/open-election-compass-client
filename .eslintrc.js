@@ -7,7 +7,9 @@ module.exports = {
     'plugin:vue/essential',
     '@vue/airbnb',
   ],
-  rules: {},
+  rules: {
+    'linebreak-style': 0,
+  },
   parserOptions: {
     parser: 'babel-eslint',
   },
