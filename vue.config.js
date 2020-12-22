@@ -15,6 +15,11 @@ module.exports = {
       template: 'public/demo-luedenscheid.html',
       filename: 'demo-luedenscheid.html',
     },
+    'demo-hessen': {
+      entry: 'src/main.js',
+      template: 'public/demo-hessen.html',
+      filename: 'demo-hessen.html',
+    },
   },
 
   publicPath: process.env.NODE_ENV === 'production' ? '/client/' : '/',

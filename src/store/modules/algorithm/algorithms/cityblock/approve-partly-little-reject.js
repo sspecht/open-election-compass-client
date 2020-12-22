@@ -1,0 +1,126 @@
+export default {
+  options: [
+    {
+      alias: 'stimme voll zu',
+      direction: 'positive',
+      icon: 'check',
+      colors: {
+        base: '#68D391',
+        contrast: '#FFFFFF',
+        darker: '#38A169',
+        lighter: '#C6F6D5',
+      },
+      locales: {
+        en: {
+          button: 'Approve',
+          'button-aria': 'Approve – click here to approve this thesis!',
+          badge: 'You approved',
+          'badge-aria': 'You approved this thesis.',
+          status: 'approves',
+          'answer-aria': 'The party \'{party}\' approves this thesis with the following answer: {answer}',
+        },
+        de: {
+          button: 'stimme voll zu',
+          'button-aria': 'Zustimmung – klicke hier, um dieser These zuzustimmen!',
+          badge: 'Du hast voll zugestimmt',
+          'badge-aria': 'Du hast dieser These voll zugestimmt.',
+          status: 'stimmt zu',
+          'answer-aria': 'Die Partei \'{party}\' stimmt dieser These voll zu mit der folgenden Begründung: {answer}',
+        },
+      },
+    },
+    {
+      alias: 'stimme eher zu',
+      direction: 'positive',
+      icon: 'plus',
+      colors: {
+        base: '#a6dc54',
+        contrast: '#FFFFFF',
+        darker: '#17e02a',
+        lighter: '#FEEBC8',
+      },
+      locales: {
+        en: {
+          button: 'Partly',
+          'button-aria': 'Partly – click here to agree partly with this thesis!',
+          badge: 'You agreed partly',
+          'badge-aria': 'You agreed partly with this thesis.',
+          status: 'agrees partly',
+          'answer-aria': 'The party \'{party}\' supports this thesis partly, providing the following answer: {answer}',
+        },
+        de: {
+          button: 'stimme eher zu',
+          'button-aria': 'Teilweise – klicke hier, um dieser These eher zuzustimmen!',
+          badge: 'Du hast eher zugestimmt',
+          'badge-aria': 'Du hast dieser These eher zugestimmt.',
+          status: 'stimmt eher zu',
+          'answer-aria': 'Die Partei \'{party}\' unterstützt diese These eher, mit der folgenden Begründung: {answer}',
+        },
+      },
+    },
+    {
+      alias: 'stimme weniger zu',
+      direction: 'negative',
+      icon: 'minus',
+      colors: {
+        base: '#ECC94B',
+        contrast: '#FFFFFF',
+        darker: '#D69E2E',
+        lighter: '#FEEBC8',
+      },
+      locales: {
+        en: {
+          button: 'Little',
+          'button-aria': 'Partly – click here to agree a little with this thesis!',
+          badge: 'You agreed a little',
+          'badge-aria': 'You agreed a little with this thesis.',
+          status: 'agrees a little',
+          'answer-aria': 'The party \'{party}\' supports this thesis a little, providing the following answer: {answer}',
+        },
+        de: {
+          button: 'stimme weniger zu',
+          'button-aria': 'Teilweise – klicke hier, um dieser These weniger zuzustimmen!',
+          badge: 'Du hast weniger zugestimmt',
+          'badge-aria': 'Du hast dieser These weniger zugestimmt.',
+          status: 'stimmt weniger zu',
+          'answer-aria': 'Die Partei \'{party}\' unterstützt diese These weniger, mit der folgenden Begründung: {answer}',
+        },
+      },
+    },
+    {
+      alias: 'stimme überhaupt nicht zu',
+      direction: 'negative',
+      icon: 'times',
+      colors: {
+        base: '#FC8181',
+        contrast: '#FFFFFF',
+        darker: '#E53E3E',
+        lighter: '#FED7D7',
+      },
+      locales: {
+        en: {
+          button: 'Reject',
+          'button-aria': 'Reject – click here to reject this thesis!',
+          badge: 'You rejected',
+          'badge-aria': 'You rejected this thesis.',
+          status: 'rejects',
+          'answer-aria': 'The party \'{party}\' rejects this thesis with the following answer: {answer}',
+        },
+        de: {
+          button: 'stimme überhaupt nicht zu',
+          'button-aria': 'Ablehnung – klicke hier, um diese These abzulehnen!',
+          badge: 'Du hast überhaupt nicht zugestimmt',
+          'badge-aria': 'Du hast dieser These überhaupt nicht zugestimmt.',
+          status: 'überhaupt nicht zugestimmt',
+          'answer-aria': 'Die Partei \'{party}\' lehnt diese These ab mit der folgenden Begründung: {answer}',
+        },
+      },
+    },
+  ],
+  points: [
+    [2, 1, 0, 0],
+    [1, 2, 1, 0],
+    [0, 1, 2, 1],
+    [0, 0, 1, 2],
+  ],
+};

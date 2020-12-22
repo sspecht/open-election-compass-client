@@ -25,6 +25,7 @@ import {
   faMeh,
   faMehBlank,
   faMinus,
+  faPlus,
   faQuestion,
   faSlash,
   faSmile,
@@ -53,6 +54,7 @@ library.add(
   faSmile,
   faTimes,
   faUndo,
+  faPlus,
 );
 
 export default {
