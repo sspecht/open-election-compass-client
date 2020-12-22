@@ -72,12 +72,19 @@ export default {
    */
   mounted() {
     // Get JSON content from element attributes. Example:
+    // //7 REQUEST ON LOAD?
     // <open-election-compass load-url="https://example.com/content.json" />
     // – or –
     // <open-election-compass load-tag="#oec-content" />
     // <script type="application/json" id="oec-content">...
     domReady(() => {
-      if (typeof this.loadTag === 'string' && this.loadTag.length > 0) {
+      const urlString = window.location.href;
+      const url = new URL(urlString);
+      const key = url.searchParams.get('key');
+
+      if (this.loadUrl === 'file') {
+        this.loadContentFromUrl(`http://localhost:8000/configs/${key}`);
+      } else if (typeof this.loadTag === 'string' && this.loadTag.length > 0) {
         this.loadContentFromTag(this.loadTag);
       } else if (typeof this.loadUrl === 'string' && this.loadUrl.length > 0) {
         this.loadContentFromUrl(this.loadUrl);
