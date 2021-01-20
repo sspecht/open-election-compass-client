@@ -8,7 +8,26 @@
     </p>
     <ul role="list">
       <li
-        v-for="({ party, percentage }) in results"
+        v-for="({ party, percentage }) of results.filter(r => r.party.selected)"
+        :key="party.alias"
+        role="listitem"
+      >
+        <Match
+          :party="party"
+          :percentage="percentage"
+        />
+      </li>
+    </ul>
+    <br>
+    <h2 class="match-section__heading">
+      Hier der Rest der Parteien
+    </h2>
+    <p class="match-section__explanation">
+      Hier wird der Rest der Parteien angezeigt
+    </p>
+    <ul role="list">
+      <li
+        v-for="({ party, percentage }) of results.filter(r => !r.party.selected)"
         :key="party.alias"
         role="listitem"
       >
@@ -22,7 +41,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import Match from '@/components/views/home/sections/05-match/Match.vue';
 import PageSection from '@/components/elements/PageSection.vue';
 
@@ -32,11 +51,19 @@ export default {
     Match,
     PageSection,
   },
+  mounted() {
+    this.exportResult(this.results);
+  },
   computed: {
     ...mapGetters({
       selectedParties: 'parties/selectedParties',
       theses: 'theses/theses',
-      results: 'parties/results',
+      results: 'parties/resultsAllParties',
+    }),
+  },
+  methods: {
+    ...mapActions({
+      exportResult: 'parties/exportResult',
     }),
   },
 };
