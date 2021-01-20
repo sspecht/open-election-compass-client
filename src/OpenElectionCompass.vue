@@ -175,6 +175,14 @@ export default {
         this.$store.commit('languages/activateLanguage', { code: this.language });
       }
 
+      // //7 Extract Survey from content
+      const survey = _get(content, 'survey', undefined);
+      if (survey && survey.districts) {
+        this.$store.dispatch('survey/insertDistricts', {
+          districts: survey.districts,
+        });
+      }
+
       // Set up algorithm
       this.$store.dispatch('algorithm/activateAlgorithm', {
         algorithm: _get(content, 'algorithm', 'cityblock/approve-neutral-reject'),

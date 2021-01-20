@@ -36,6 +36,9 @@ export default {
     partiesChosen() {
       return this.$store.getters['parties/chosen'];
     },
+    surveyfinished() {
+      return this.$store.getters['survey/finished'];
+    },
   },
   methods: {
     initSections() {
@@ -52,10 +55,25 @@ export default {
         completed: false,
         message: 'introduction',
       });
+
       this.$watch('actualSection', (section) => {
         if (section && section.alias === 'introduction') {
           this.$store.commit('sections/markSectionAsCompleted', 'introduction');
           this.$store.dispatch('sections/enableGuideButton');
+        }
+      });
+
+      this.$store.commit('sections/addSection', {
+        alias: 'survey',
+        completed: false,
+        message: 'survey',
+      });
+      this.$watch('surveyfinished', (finished) => {
+        console.log(finished);
+        if (finished) {
+          this.$store.commit('sections/markSectionAsCompleted', 'survey');
+          this.$store.dispatch('sections/enableGuideButton');
+          this.goToActiveSection();
         }
       });
 

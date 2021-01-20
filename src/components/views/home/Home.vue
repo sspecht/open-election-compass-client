@@ -13,8 +13,9 @@
           <start-section />
           <main :aria-roledescription="$t('role-aria')">
             <introduction-section />
-            <theses-section />
-            <party-section v-if="$store.getters['theses/complete']" />
+            <survey-section v-if="$store.getters['survey/districts']"/>
+            <theses-section v-if="$store.getters['survey/finished']"/>
+            <party-section v-if="$store.getters['theses/complete']"/>
             <match-section v-if="$store.getters['parties/chosen']" />
             <compare-section v-if="$store.getters['parties/chosen']" />
           </main>
@@ -38,6 +39,7 @@ import PartySection from '@/components/views/home/sections/04-party/PartySection
 import MatchSection from '@/components/views/home/sections/05-match/MatchSection.vue';
 import CompareSection from '@/components/views/home/sections/06-compare/CompareSection.vue';
 import FooterSection from '@/components/views/home/sections/07-footer/FooterSection.vue';
+import SurveySection from '@/components/views/home/sections/08-survey/SurveySection.vue';
 import GuideButton from '@/components/elements/GuideButton.vue';
 import KioskMode from '@/components/elements/KioskMode.vue';
 
@@ -65,10 +67,10 @@ export default {
     FooterSection,
     GuideButton,
     KioskMode,
+    SurveySection,
   },
 };
 </script>
-
 <i18n>
 {
   "en": {

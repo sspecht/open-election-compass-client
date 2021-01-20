@@ -8,6 +8,7 @@ import options from './modules/options/options';
 import parties from './modules/parties/parties';
 import sections from './modules/sections/sections';
 import theses from './modules/theses/theses';
+import survey from './modules/survey/survey';
 
 Vue.use(Vuex);
 
@@ -20,5 +21,6 @@ export default new Vuex.Store({
     parties,
     sections,
     theses,
+    survey,
   },
 });
