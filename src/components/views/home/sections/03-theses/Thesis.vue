@@ -44,7 +44,7 @@
     </div>
 
     <!-- Important Toggle -->
-    <div class="thesis__important-button">
+    <div class="thesis__important-button" v-if="false">
       <ImportantButton
         :name="`important-${index}`"
         v-model="factor"
