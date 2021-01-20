@@ -69,7 +69,6 @@ export default {
         message: 'survey',
       });
       this.$watch('surveyfinished', (finished) => {
-        console.log(finished);
         if (finished) {
           this.$store.commit('sections/markSectionAsCompleted', 'survey');
           this.$store.dispatch('sections/enableGuideButton');
