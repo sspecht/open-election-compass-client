@@ -84,6 +84,14 @@ export default {
 
       if (this.loadUrl === 'file') {
         this.loadContentFromUrl(`http://localhost:8000/configs/${key}`);
+      } else if (this.loadUrl === 'api') {
+        this.$store.dispatch('researchdata/requestPseudonym', { key });
+        const unsubscribe = this.$store.subscribe((mutation) => {
+          if (mutation.type === 'researchdata/setConfig') {
+            this.loadContentFromObject(this.$store.getters['researchdata/config']);
+            unsubscribe();
+          }
+        });
       } else if (typeof this.loadTag === 'string' && this.loadTag.length > 0) {
         this.loadContentFromTag(this.loadTag);
       } else if (typeof this.loadUrl === 'string' && this.loadUrl.length > 0) {
@@ -176,7 +184,9 @@ export default {
 
       // If a default language is provided from the outside (e.g. from a parent router), set it
       if (this.language && this.$store.getters['languages/usesFallback']) {
-        this.$store.commit('languages/activateLanguage', { code: this.language });
+        this.$store.commit('languages/activateLanguage', {
+          code: this.language,
+        });
       }
 
       // //7 Extract Survey from content

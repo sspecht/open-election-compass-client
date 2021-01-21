@@ -9,6 +9,7 @@ import parties from './modules/parties/parties';
 import sections from './modules/sections/sections';
 import theses from './modules/theses/theses';
 import survey from './modules/survey/survey';
+import researchdata from './modules/researchdata/researchdata';
 
 Vue.use(Vuex);
 
@@ -22,5 +23,6 @@ export default new Vuex.Store({
     sections,
     theses,
     survey,
+    researchdata
   },
 });
