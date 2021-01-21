@@ -118,7 +118,9 @@ export default {
     loadContentFromTag(tag) {
       const element = document.querySelector(tag);
       if (element.tagName !== 'SCRIPT') {
-        throw new Error('Please reference a script-tag in the load-url attribute to load the content from.');
+        throw new Error(
+          'Please reference a script-tag in the load-url attribute to load the content from.'
+        );
       }
       const content = JSON.parse(element.text);
       const result = this.parseContent(content);
@@ -157,7 +159,9 @@ export default {
     parseContent(content) {
       const languages = content.languages.map((language) => language.code);
       if (languages.length === 0) {
-        console.error('No translation loaded, because no translation attributes were found on the base element. Should look like this: <open-election-compass translation-en="https://example.com/en.json" />'); // eslint-disable-line no-console
+        console.error(
+          'No translation loaded, because no translation attributes were found on the base element. Should look like this: <open-election-compass translation-en="https://example.com/en.json" />'
+        ); // eslint-disable-line no-console
       }
 
       // Add languages to store
@@ -211,7 +215,11 @@ export default {
         this.readTranslation(content, `theses.${index}.statement`, translations);
         const positions = {};
         _forEach(content.parties, (party) => {
-          this.readTranslation(content, `theses.${index}.positions.${party.alias}.explanation`, translations);
+          this.readTranslation(
+            content,
+            `theses.${index}.positions.${party.alias}.explanation`,
+            translations
+          );
           positions[party.alias] = thesis.positions[party.alias].position;
         });
         this.$store.commit('theses/addThesis', {
@@ -272,14 +280,12 @@ export default {
         console.warn(`Found no translations at path '${path}'. Check your configuration.`); // eslint-disable-line no-console
         return to;
       }
-      _forEach(
-        translations,
-        (translation, language) => _set(to, `${language}.${path}`, translation),
+      _forEach(translations, (translation, language) =>
+        _set(to, `${language}.${path}`, translation)
       );
       return to;
     },
   },
-
 };
 </script>
 
@@ -304,8 +310,8 @@ export default {
       0deg,
       $theme-dark-background 0%,
       $theme-dark-background 50%,
-      #FFF 50%,
-      #FFF 100%
+      #fff 50%,
+      #fff 100%
     );
   }
 }

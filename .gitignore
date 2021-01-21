@@ -1,6 +1,10 @@
 .DS_Store
 node_modules
 /dist
+/public/configs/*.json
+/public/logos/*.png
+/public/logos/*.svg
+/public/logos/*.jpg
 
 /tests/e2e/reports/
 selenium-debug.log
@@ -25,3 +29,4 @@ yarn-error.log*
 *.sln
 *.sw?
 /coverage
+debug.log

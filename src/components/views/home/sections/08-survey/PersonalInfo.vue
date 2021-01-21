@@ -1,47 +1,48 @@
 <template>
   <div>
-    <h2>Umfrage Seite 1/2</h2>
+    <h2 class="survey-section__heading">Umfrage Seite 1/2</h2>
     <div class="umfragePart">
       <label class="umfragelabel" for="gender">Bitte geben Sie Ihr Geschlecht an</label>
-      <select name="gender"
-        @change="handleGenderChange($event)"
-        class="umfrageSelect"
-      >
-        <option v-for="option in geschlechtOptions"
+      <select name="gender" @change="handleGenderChange($event)" class="umfrageSelect">
+        <option
+          v-for="option in geschlechtOptions"
           :key="'geschlecht' + option"
           :value="geschlechtOptions.indexOf(option)"
           :selected="geschlecht == geschlechtOptions.indexOf(option)"
         >
-        {{ option }}
+          {{ option }}
         </option>
       </select>
     </div>
     <div class="umfragePart">
       <label class="umfragelabel" for="age">In welchem Jahr wurden Sie geboren?</label>
-      <input type="number"
-      id="quantity"
-      name="age"
-      min="1920"
-      max="2021"
-      @change="handleAgeChange($event)"
-      :value="alter != 0? alter : ''"
-      class="umfrageSelect"
-      >
+      <input
+        type="number"
+        id="quantity"
+        name="age"
+        min="1920"
+        max="2021"
+        @change="handleAgeChange($event)"
+        :value="alter != 0 ? alter : ''"
+        class="umfrageSelect"
+      />
     </div>
     <div class="umfragePart">
       <label class="umfragelabel" for="bildungsabschluss">
-        Was ist Ihr höchster Bildungsabschluss?</label>
+        Was ist Ihr höchster Bildungsabschluss?</label
+      >
       <select
         name="bildungsabschluss"
         @change="handleAbschlussChange($event)"
         class="umfrageSelect"
       >
-        <option v-for="option in abschlussOptions"
+        <option
+          v-for="option in abschlussOptions"
           :key="'abschluss' + option"
           :value="abschlussOptions.indexOf(option)"
           :selected="bildungsabschluss == abschlussOptions.indexOf(option)"
         >
-        {{ option }}
+          {{ option }}
         </option>
       </select>
     </div>
@@ -52,7 +53,7 @@
           v-for="district in districts"
           :key="'stadtteil' + district"
           :selected="stadtteil == district"
-          >
+        >
           {{ district }}
         </option>
       </select>
@@ -82,7 +83,6 @@ export default {
       updateAlter: 'updateAlter',
       updateBildungsabschluss: 'updateBildungsabschluss',
       updateStadtteil: 'updateStadtteil',
-
     }),
     handleDistrictChange(event) {
       this.updateStadtteil(event.target.value);
@@ -100,6 +100,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

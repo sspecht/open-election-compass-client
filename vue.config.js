@@ -15,10 +15,10 @@ module.exports = {
       template: 'public/demo-luedenscheid.html',
       filename: 'demo-luedenscheid.html',
     },
-    'demo-hessen': {
+    'demo-hogwarts': {
       entry: 'src/main.js',
-      template: 'public/demo-hessen.html',
-      filename: 'demo-hessen.html',
+      template: 'public/demo-hogwarts.html',
+      filename: 'demo-hogwarts.html',
     },
   },
 

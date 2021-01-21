@@ -1,37 +1,36 @@
 <template>
   <PageSection class="survey-section" data-section="survey" v-if="surveyStep != -1">
-    <div
-      v-if="surveyStep == 0"
-    >
-    <h2>Dürfen wir Sie um etwas bitten?</h2>
-    <p>Wenn Sie uns hier ein paar Daten spenden,
-      bringt das unsere Forschung sehr viel weiter.
-      Alle Daten werden anonym behandelt!</p>
+    <div v-if="surveyStep == 0">
+      <h2 class="survey-section__heading">
+        Dürfen wir Sie um etwas bitten?
+      </h2>
+      <p class="survey-section__text">
+        Wenn Sie uns hier ein paar Daten spenden, bringt das unsere Forschung sehr viel weiter. Alle
+        Daten werden anonym behandelt!
+      </p>
     </div>
-     <div
-      v-if="surveyStep == 3"
-    >
-    <h2>Danke!</h2>
-    <p>Vielen Dank für Ihre Umfrageteilnahme!</p>
+    <div v-if="surveyStep == 3">
+      <h2 class="survey-section__heading">
+        Danke!
+      </h2>
+      <p class="survey-section__text">
+        Vielen Dank für Ihre Teilnahme an der Umfrage!
+      </p>
     </div>
-    <PersonalInfo
-      v-if="surveyStep == 1"
-    />
-    <PoliticalInfo
-      v-if="surveyStep == 2"
-    />
+    <PersonalInfo v-if="surveyStep == 1" />
+    <PoliticalInfo v-if="surveyStep == 2" />
     <div class="umfrageButtons">
       <BaseButton
         v-if="surveyStep == 0"
-        @click="updateSurveyFinished(); updateSurveyStep(-1);"
+        @click="
+          updateSurveyFinished();
+          updateSurveyStep(-1);
+        "
       >
-        Nein, Direkt zu den Thesen.
+        Nein, direkt zu den Thesen.
       </BaseButton>
-      <BaseButton
-        v-if="surveyStep == 0"
-        @click="updateSurveyStep(surveyStep + 1)"
-      >
-        Los gehts!
+      <BaseButton v-if="surveyStep == 0" @click="updateSurveyStep(surveyStep + 1)">
+        Ja.
       </BaseButton>
       <BaseButton
         v-if="surveyStep == 1 || surveyStep == 2"
@@ -40,17 +39,11 @@
       >
         Zurück
       </BaseButton>
-      <BaseButton
-        v-if="surveyStep == 1"
-        @click="updateSurveyStep(surveyStep + 1)"
-      >
+      <BaseButton v-if="surveyStep == 1" @click="updateSurveyStep(surveyStep + 1)">
         Weiter
       </BaseButton>
-      <BaseButton
-        v-if="surveyStep == 2"
-        @click="finishSurvey();"
-      >
-        Umfrage Absenden
+      <BaseButton v-if="surveyStep == 2" @click="finishSurvey()">
+        Umfrage absenden
       </BaseButton>
     </div>
   </PageSection>
@@ -62,7 +55,6 @@ import PageSection from '@/components/elements/PageSection.vue';
 import BaseButton from '@/components/elements/BaseButton.vue';
 import PersonalInfo from '@/components/views/home/sections/08-survey/PersonalInfo.vue';
 import PoliticalInfo from '@/components/views/home/sections/08-survey/PoliticalInfo.vue';
-
 
 export default {
   name: 'SurveySection',
@@ -88,23 +80,20 @@ export default {
     }),
 
     finishSurvey() {
-      console.log('survey absenden');
-      this.updateSurveyFinished();
+      // this.updateSurveyFinished();
       this.updateSurveyStep(3);
+      this.sendSurvey();
       setTimeout(() => {
-        this.updateSurveyStep(-1);
-        this.sendSurvey();
+        this.updateSurveyFinished();
       }, 3000);
     },
   },
 };
-
-
 </script>
 
 <style lang="scss">
 .survey-section {
-  background-color: #ffd01c;
+  background-color: #8f9399;
   color: #000000;
 }
 
@@ -128,6 +117,7 @@ export default {
   @media (min-width: 64em) {
     font-size: 1.5em;
   }
+  margin-bottom: 1.5em;
 }
 
 .umfrageSelect {
@@ -144,7 +134,7 @@ export default {
   }
 }
 
-.umfragelabel{
+.umfragelabel {
   @media (min-width: 40em) {
     font-size: 1.25em;
   }
@@ -153,7 +143,7 @@ export default {
   }
 }
 
-.umfragePart{
+.umfragePart {
   @media (min-width: 50em) {
     display: flex;
     justify-content: space-between;
@@ -162,7 +152,7 @@ export default {
   margin: 40px 0;
 }
 
-.umfrageButtons{
+.umfrageButtons {
   display: flex;
   justify-content: space-between;
   align-items: center;
