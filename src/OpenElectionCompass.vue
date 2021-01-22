@@ -82,7 +82,7 @@ export default {
       const url = new URL(urlString);
       const key = url.searchParams.get('key');
 
-      if (this.loadUrl === 'file') {
+      if (this.loadUrl === 'localapi') {
         this.loadContentFromUrl(`http://localhost:8000/configs/${key}`);
       } else if (this.loadUrl === 'api') {
         this.$store.dispatch('researchdata/requestPseudonym', { key });
@@ -92,6 +92,8 @@ export default {
             unsubscribe();
           }
         });
+      } else if (this.loadUrl === 'file') {
+        this.loadContentFromUrl(`/configs/${key}.json`);
       } else if (typeof this.loadTag === 'string' && this.loadTag.length > 0) {
         this.loadContentFromTag(this.loadTag);
       } else if (typeof this.loadUrl === 'string' && this.loadUrl.length > 0) {
