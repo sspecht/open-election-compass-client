@@ -8,33 +8,24 @@
     </p>
     <ul role="list">
       <li
-        v-for="({ party, percentage }) of results.filter(r => r.party.selected)"
+        v-for="{ party, percentage } of results.filter((r) => r.party.selected)"
         :key="party.alias"
         role="listitem"
       >
-        <Match
-          :party="party"
-          :percentage="percentage"
-        />
+        <Match :party="party" :percentage="percentage" />
       </li>
     </ul>
-    <br>
+    <br />
     <h2 class="match-section__heading">
-      Hier der Rest der Parteien
+      {{ $t('heading_others') }}
     </h2>
-    <p class="match-section__explanation">
-      Hier wird der Rest der Parteien angezeigt
-    </p>
     <ul role="list">
       <li
-        v-for="({ party, percentage }) of results.filter(r => !r.party.selected)"
+        v-for="{ party, percentage } of results.filter((r) => !r.party.selected)"
         :key="party.alias"
         role="listitem"
       >
-        <Match
-          :party="party"
-          :percentage="percentage"
-        />
+        <Match :party="party" :percentage="percentage" />
       </li>
     </ul>
   </PageSection>
@@ -74,11 +65,13 @@ export default {
 {
   "en": {
     "heading": "Your result",
-    "explanation": "This chart describes how much you and the respective parties agreed on the above theses. The higher the percentage, the more your positions match. Keep in mind, that this is no voting recommendation, but a tool for orientation and discussion."
+    "explanation": "This chart describes how much you and the respective parties agreed on the above theses. The higher the percentage, the more your positions match. Keep in mind, that this is no voting recommendation, but a tool for orientation and discussion.",
+    "heading_others": "And these are your results with the other parties"
   },
   "de": {
     "heading": "Dein Ergebnis",
-    "explanation": "Dieses Diagramm zeigt an, wie sehr du und die jeweiligen Parteien bzgl. der obigen Thesen übereinstimmt. Je höher die Prozentzahl, desto ähnlicher sind eure Positionen. Denke daran, dass dies keine Wahl-Empfehlung ist, sondern nur ein Werkzeug der Orientierung und Diskussion."
+    "explanation": "Dieses Diagramm zeigt an, wie sehr du und die jeweiligen Parteien bzgl. der obigen Thesen übereinstimmt. Je höher die Prozentzahl, desto ähnlicher sind eure Positionen. Denke daran, dass dies keine Wahl-Empfehlung ist, sondern nur ein Werkzeug der Orientierung und Diskussion.",
+    "heading_others": "Und hier Dein Ergebnis mit den weiteren Parteien"
   }
 }
 </i18n>

@@ -3,10 +3,12 @@
     <div
       class="match__bar"
       role="img"
-      :aria-label="$t('match-aria', {
-        party: $t(`parties.${party.index}.name`),
-        percentage: Math.round(percentage * 100),
-      })"
+      :aria-label="
+        $t('match-aria', {
+          party: $t(`parties.${party.index}.name`),
+          percentage: Math.round(percentage * 100),
+        })
+      "
     >
       <div class="match__progress" :style="`width:${percentage * 100}%`" />
       <span class="match__party-name">
@@ -17,7 +19,10 @@
       </span>
     </div>
     <p class="match__party-description">
-      <ShowMore :length="500" :text="$t(`parties.${party.index}.description`)" />
+      <ShowMore
+        :length="500"
+        :text="$t(`candidate-info`) + $t(`parties.${party.index}.description`)"
+      />
     </p>
   </div>
 </template>
@@ -47,10 +52,12 @@ export default {
 <i18n>
 {
   "en": {
-    "match-aria": "Your match for the party '{party}' is at {percentage} %"
+    "match-aria": "Your match for the party '{party}' is at {percentage} %",
+    "candidate-info": "Candidate info: "
   },
   "de": {
-    "match-aria": "Deine Übereinstimmung mit den Positionen der Partei '{party}' liegt bei {percentage} %"
+    "match-aria": "Deine Übereinstimmung mit den Positionen der Partei '{party}' liegt bei {percentage} %",
+    "candidate-info": "Kandidaten-Info: "
   }
 }
 </i18n>
