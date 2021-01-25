@@ -44,11 +44,17 @@ export default {
     chose({ commit }) {
       commit('setChosen', { chosen: true });
     },
-    exportResult({ commit }, exportResult) {
+    exportResult({ commit, dispatch }, exportResult) {
       let config = '';
       const str = window.location.href;
       const pos = str.lastIndexOf('=');
       config = str.substr(pos + 1, str.length - pos - 1);
+
+      dispatch("researchdata/storeResults", {
+        result: exportResult,
+        timestamp: Date.now(),
+        config,
+      }, { root: true });
 
       const jsonString = JSON.stringify({
         result: exportResult,
@@ -65,7 +71,7 @@ export default {
       xhr.onreadystatechange = function ready() {
         if (this.readyState === 4 && this.status === 200) {
           // key des Datenbankeintrags kommt in der Response zurück.
-          console.log(JSON.parse(this.response));
+          // console.log(JSON.parse(this.response));
           commit('setExportedResult', { exportedResult: true });
         }
       };

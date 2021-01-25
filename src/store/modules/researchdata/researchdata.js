@@ -1,4 +1,4 @@
-import * as Realm from 'realm-web';
+import { fetchConfig, storeResults } from './researchapi';
 
 export default {
   namespaced: true,
@@ -37,7 +37,7 @@ export default {
     requestPseudonym({ commit }, { key }) {
       commit('setKey', { key })
       // Create an anonymous credential
-      const appId = 'triggers_realmapp-trcon';
+      /* const appId = 'triggers_realmapp-trcon';
       const app = new Realm.App({ id: appId });
       const credentials = Realm.Credentials.anonymous();
       const createPseudonym = async () => {
@@ -49,22 +49,17 @@ export default {
         }
         return null;
       };
-      const fetchConfig = async () => {
-        const mongodb = app.currentUser.mongoClient('Cluster0').db('VAAHE21');
-        const configs = mongodb.collection('Configs');
-        const conf = await configs.findOne({ config: key });
-        return conf;
-      };
-      createPseudonym().then((user) => {
-        commit('setPseudonym', { user })
-        fetchConfig().then((config) => {
-          commit('setConfig', { config })
-        });
+      */
+
+      fetchConfig(key).then((config) => {
+        commit('setConfig', { config })
       });
     },
     storeSurvey() {
     },
-    storeResults() {
+    storeResults(context, results) {
+      storeResults(results);
+      // .then(id => console.log("result saved", id));
     }
   }
 };

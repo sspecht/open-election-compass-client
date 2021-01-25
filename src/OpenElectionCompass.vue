@@ -93,7 +93,7 @@ export default {
           }
         });
       } else if (this.loadUrl === 'file') {
-        this.loadContentFromUrl(`/configs/${key}.json`);
+        this.loadContentFromUrl(`configs/${key}.json`);
       } else if (typeof this.loadTag === 'string' && this.loadTag.length > 0) {
         this.loadContentFromTag(this.loadTag);
       } else if (typeof this.loadUrl === 'string' && this.loadUrl.length > 0) {
@@ -169,9 +169,10 @@ export default {
     parseContent(content) {
       const languages = content.languages.map((language) => language.code);
       if (languages.length === 0) {
+        // eslint-disable-next-line no-console
         console.error(
           'No translation loaded, because no translation attributes were found on the base element. Should look like this: <open-election-compass translation-en="https://example.com/en.json" />'
-        ); // eslint-disable-line no-console
+        );
       }
 
       // Add languages to store
@@ -289,7 +290,8 @@ export default {
     readTranslation(from, path, to) {
       const translations = _get(from, path);
       if (typeof translations !== 'object') {
-        console.warn(`Found no translations at path '${path}'. Check your configuration.`); // eslint-disable-line no-console
+        // eslint-disable-next-line no-console
+        console.warn(`Found no translations at path '${path}'. Check your configuration.`);
         return to;
       }
       _forEach(translations, (translation, language) =>
