@@ -1,27 +1,7 @@
 <template>
   <div>
     <h2 class="survey-section__heading">Umfrage Seite 2/2</h2>
-    <div class="umfragePart">
-      <label class="umfragelabel" for="wahlberechtigt">
-        Sind Sie bei der Hessischen<br />
-        Kommunalwahl 2021 wahlberechtigt?
-      </label>
-      <select
-        name="wahlberechtigt"
-        @change="handleWahlBerechtigtChange($event)"
-        class="umfrageSelect"
-      >
-        <option
-          v-for="option in wahlberechtigtOptions"
-          :key="option"
-          :value="wahlberechtigtOptions.indexOf(option)"
-          :selected="wahlberechtigt == wahlberechtigtOptions.indexOf(option)"
-        >
-          {{ option }}
-        </option>
-      </select>
-    </div>
-    <div class="umfragePart">
+    <div class="umfragePart" v-if="wahlberechtigt == 1">
       <label class="umfragelabel" for="turnout">
         Haben Sie vor sich an der<br />
         Hessischen Kommunalwahl 2021 zu beteiligen?
@@ -42,7 +22,7 @@
         </option>
       </select>
     </div>
-    <div class="umfragePart">
+    <div class="umfragePart" v-if="wahlberechtigt == 1">
       <label class="umfragelabel" for="vote_local">
         Welchem Wahlbündnis/welcher Partei werden<br />
         Sie bei der Kommunalwahl voraussichtlich<br />
@@ -111,7 +91,6 @@ export default {
     // console: () => console,
     ...mapGetters({
       parties: 'parties/parties',
-      wahlberechtigtOptions: 'survey/wahlberechtigtOptions',
       turnoutOptions: 'survey/turnoutOptions',
       voteBtwOptions: 'survey/voteBtwOptions',
       polintOptions: 'survey/polintOptions',
@@ -121,15 +100,12 @@ export default {
   },
   methods: {
     ...mapMutations('survey', {
-      updateWahlberechtigt: 'updateWahlberechtigt',
       updateTurnout: 'updateTurnout',
       updateVote_local: 'updateVote_local',
       updateVote_btw: 'updateVote_btw',
       updatePolint: 'updatePolint',
     }),
-    handleWahlBerechtigtChange(event) {
-      this.updateWahlberechtigt(event.target.value);
-    },
+    
     handleTurnoutChange(event) {
       this.updateTurnout(event.target.value);
     },

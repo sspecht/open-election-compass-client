@@ -43,7 +43,7 @@ export default {
     PageSection,
   },
   mounted() {
-    this.exportResult(this.results);
+    this.exportResult();
   },
   computed: {
     ...mapGetters({

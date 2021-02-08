@@ -73,6 +73,7 @@ export default {
     ...mapMutations('survey', {
       updateSurveyStep: 'updateSurveyStep',
       updateSurveyFinished: 'updateSurveyFinished',
+      updateSurveyParticipation: 'updateSurveyParticipation'
     }),
 
     ...mapActions('survey', {
@@ -80,9 +81,9 @@ export default {
     }),
 
     finishSurvey() {
-      // this.updateSurveyFinished();
       this.updateSurveyStep(3);
       this.sendSurvey();
+      this.updateSurveyParticipation();
       setTimeout(() => {
         this.updateSurveyFinished();
       }, 3000);

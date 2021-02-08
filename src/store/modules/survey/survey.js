@@ -2,6 +2,7 @@ export default {
   namespaced: true,
   state: {
     surveyFinished: false,
+    surveyParticipation: false,
     surveyStep: 0,
     geschlecht: 0,
     alter: 0,
@@ -68,6 +69,12 @@ export default {
     ],
   },
   getters: {
+    survey(state){
+      return [state.geschlecht, state.alter, state.bildungsabschluss, state.stadtteil, state.wahlberechtigt, state.turnout, state.vote_local, state.vote_btw, state.polint];
+    },
+    surveyParticipation(state){
+      return state.surveyParticipation
+    },
     finished(state) {
       return state.surveyFinished;
     },
@@ -116,6 +123,9 @@ export default {
     },
   },
   mutations: {
+    updateSurveyParticipation(state){
+      state.surveyParticipation = true;
+    },
     updateSurveyFinished(state) {
       state.surveyFinished = true;
     },

@@ -15,13 +15,13 @@
       </select>
     </div>
     <div class="umfragePart">
-      <label class="umfragelabel" for="age">In welchem Jahr wurden Sie geboren?</label>
+      <label class="umfragelabel" for="age">Wie alt sind sie?</label>
       <input
         type="number"
         id="quantity"
         name="age"
-        min="1920"
-        max="2021"
+        min="1"
+        max="120"
         @change="handleAgeChange($event)"
         :value="alter != 0 ? alter : ''"
         class="umfrageSelect"
@@ -58,6 +58,26 @@
         </option>
       </select>
     </div>
+    <div class="umfragePart">
+      <label class="umfragelabel" for="wahlberechtigt">
+        Sind Sie bei der Hessischen<br />
+        Kommunalwahl 2021 wahlberechtigt?
+      </label>
+      <select
+        name="wahlberechtigt"
+        @change="handleWahlBerechtigtChange($event)"
+        class="umfrageSelect"
+      >
+        <option
+          v-for="option in wahlberechtigtOptions"
+          :key="option"
+          :value="wahlberechtigtOptions.indexOf(option)"
+          :selected="wahlberechtigt == wahlberechtigtOptions.indexOf(option)"
+        >
+          {{ option }}
+        </option>
+      </select>
+    </div>
   </div>
 </template>
 
@@ -73,12 +93,14 @@ export default {
       districts: 'survey/districts',
       geschlechtOptions: 'survey/geschlechtOptions',
       abschlussOptions: 'survey/abschlussOptions',
+      wahlberechtigtOptions: 'survey/wahlberechtigtOptions',
     }),
 
-    ...mapState('survey', ['geschlecht', 'alter', 'bildungsabschluss', 'stadtteil']),
+    ...mapState('survey', ['geschlecht', 'alter', 'bildungsabschluss', 'stadtteil', 'wahlberechtigt']),
   },
   methods: {
     ...mapMutations('survey', {
+      updateWahlberechtigt: 'updateWahlberechtigt',
       updateGeschlecht: 'updateGeschlecht',
       updateAlter: 'updateAlter',
       updateBildungsabschluss: 'updateBildungsabschluss',
@@ -95,6 +117,9 @@ export default {
     },
     handleAbschlussChange(event) {
       this.updateBildungsabschluss(event.target.value);
+    },
+    handleWahlBerechtigtChange(event) {
+      this.updateWahlberechtigt(event.target.value);
     },
   },
 };
