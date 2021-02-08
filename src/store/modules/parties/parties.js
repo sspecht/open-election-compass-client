@@ -44,38 +44,44 @@ export default {
     chose({ commit }) {
       commit('setChosen', { chosen: true });
     },
-    exportResult({ commit, dispatch }, exportResult) {
+    exportResult({ dispatch, rootGetters }) {
+      const theses = rootGetters['theses/theses'];
+      const parties = rootGetters['parties/parties'];
+      const surveyResult = rootGetters['survey/survey'];
+      const surveyParticipation = rootGetters['survey/surveyParticipation'];
+
       let config = '';
       const str = window.location.href;
       const pos = str.lastIndexOf('=');
       config = str.substr(pos + 1, str.length - pos - 1);
+      const algorithm = rootGetters['algorithm/algorithm'];
+
+      const statuses = algorithm.options.map((option) => option.alias);
+
+      const thesesArray = [];
+      theses.forEach(thesis => {
+        thesesArray.push(statuses.indexOf(thesis.status));
+      });
+
+      const partiesArray = [];
+      parties.forEach(party => {
+        partiesArray.push(party.selected)
+      })
+
+      const exportResult = {
+        parties: partiesArray,
+        theses: thesesArray,
+      }
+
+      if(surveyParticipation){
+        exportResult.survey = surveyResult;
+      }
 
       dispatch("researchdata/storeResults", {
         result: exportResult,
         timestamp: Date.now(),
         config,
       }, { root: true });
-
-      const jsonString = JSON.stringify({
-        result: exportResult,
-        timestamp: Date.now(),
-        config,
-      });
-      const url = `${window.location.protocol}//${window.location.hostname}:8000/saveResult`;
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', url);
-      xhr.setRequestHeader(
-        'Content-Type',
-        'application/json;charset=UTF-8',
-      );
-      xhr.onreadystatechange = function ready() {
-        if (this.readyState === 4 && this.status === 200) {
-          // key des Datenbankeintrags kommt in der Response zurück.
-          // console.log(JSON.parse(this.response));
-          commit('setExportedResult', { exportedResult: true });
-        }
-      };
-      xhr.send(jsonString);
     },
   },
   mutations: {
@@ -93,3 +99,4 @@ export default {
     },
   },
 };
+
