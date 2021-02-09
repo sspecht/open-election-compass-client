@@ -56,6 +56,7 @@
   <pre id="error"></pre>
   <pre id="out"></pre>
   <div id="htmlout"></div>
+  <a id="downloadAnchorElem" style="display:none"></a>
   <script src="./shim.js"></script>
   <script src="./xlsx.full.min.js"></script>
   <script type="module" src="./adminapi.js"></script>
@@ -66,18 +67,7 @@
     /*global Uint8Array, Uint16Array, ArrayBuffer */
     /*global XLSX */
 
-    import fetchConfigs from "./adminapi.js";
-
     const logoUrlString = "/";
-    const urlString = window.location.href;
-    const url = new URL(urlString);
-    const key = url.searchParams.get('key');
-
-    if (key) {
-      fetchConfigs(key);
-    }
-
-    console.dir(key);
 
     var X = XLSX;
     var XW = {
@@ -364,17 +354,13 @@
             config.theses.push(these);
           });
 
-          console.dir(config);
-          console.log("saving");
-          // TODO: save to mongo app server instead
-          saveConfig(config, (key) => {
-            let outputUrl = `${window.location.protocol}//${window.location.hostname}:8080/index.html/?key=${key}`;
-            //let outputUrl = `http://192.168.0.208:8080/demo-hessen.html/?key=${key}`
-            outputHTML = `Config wurde erfolgreich mit dem Schlüssel ${key} angelegt, <a href="${outputUrl}">Link zum Wahlkompass</a>`;
-            OUT.innerHTML = outputHTML;
-          });
+          // emit download
+          var dataString = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(config));
+          var downloadAnchorElem = document.getElementById('downloadAnchorElem');
+          downloadAnchorElem.setAttribute("href", dataString);
+          downloadAnchorElem.setAttribute("download", encodeURIComponent(config.name) + ".json");
+          downloadAnchorElem.click();
         }
-        // prepare OEC config object
       };
     })();
 
@@ -458,7 +444,7 @@
       xlf.addEventListener("change", handleFile, false);
     })();
 
-    function saveConfig(config, callback) {
+    /* function saveConfig(config, callback) {
       const JsonString = JSON.stringify({
         json: config,
         title: config.title.de,
@@ -475,7 +461,7 @@
         }
       };
       xmlHttp.send(JsonString);
-    }
+    } */
   </script>
 </body>
 
