@@ -1,9 +1,5 @@
 <template>
-  <font-awesome-icon
-    :icon="['fas', name]"
-    class="icon"
-    :fixed-width="monospace"
-    :spin="spinning" />
+  <font-awesome-icon :icon="['fas', name]" class="icon" :fixed-width="monospace" :spin="spinning" />
 </template>
 
 <script>
@@ -31,6 +27,7 @@ import {
   faSmile,
   faTimes,
   faUndo,
+  faCity,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -55,6 +52,7 @@ library.add(
   faTimes,
   faUndo,
   faPlus,
+  faCity
 );
 
 export default {

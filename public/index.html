@@ -15,8 +15,20 @@
       continue.</strong>
   </noscript>
   <div id="open-election-compass">
-    <open-election-compass load-url="api" />
+    <open-election-compass load-url="file" />
   </div>
+  <!-- Hier die Kommunen mit aktuell gültigen Configs eintragen. -->
+  <!-- Schema: { "key": "Dateiname ohne .json", "name": "Anzuzeigender Name" }, -->
+  <!-- Wichtig ist das Komma hinter jeder geschweiften Klammer, außer der letzten.-->
+  <script type="application/json" id="oec-settings">
+    {
+      "configs":[
+        { "key": "short", "name": "Gießen Short-Version" },
+        { "key": "Viernheim-853358842859", "name": "Viernheim" },
+        { "key": "Gießen-805810740011", "name": "Gießen" }
+      ]
+    }
+  </script>
   <!-- built files will be auto injected -->
 </body>
 

@@ -5,9 +5,10 @@
       :heading="$t('heading')"
       :description="$t('description')"
       name="configs"
-      width="slim"
-      icon="check"
+      width="narrow"
+      icon="city"
       @close="$emit('close')"
+      :buttons="[]"
     >
       <ul class="config-switch__menu" role="menu">
         <li v-for="config in configs" :key="config.key" class="config-switch__item" role="menuitem">
@@ -38,17 +39,11 @@ export default {
   },
   computed: {
     configs() {
-      // return this.$store.getters['languages/languages'];
-      return [
-        {key:"short", name: "Gießen Short-Version"},
-        {key: "Viernheim-853358842859", name: "Viernheim"},
-        {key:"Gießen-805810740011", name: "Gießen"}
-      ]
+      return this.$store.getters['options/configList'];
     },
   },
   methods: {
     activateConfig( key ) {
-      // this.$store.commit('languages/activateLanguage', { code });
       this.$store.commit('options/setConfigKey', key );
       this.$emit('close');
     },
@@ -79,13 +74,13 @@ export default {
 {
   "en": {
     "button": "Kommune",
-    "heading": "Kommune",
-    "description": "Bitte wählen Sie die Kommune."
+    "heading": "Kommunalwahlkompass Hessen '21",
+    "description": "Bitte wählen Sie Ihre Kommune."
   },
   "de": {
     "button": "Kommune",
-    "heading": "Kommune",
-    "description": "Bitte wählen Sie die Kommune."
+    "heading": "Kommunalwahlkompass Hessen '21",
+    "description": "Bitte wählen Sie Ihre Kommune."
   }
 }
 </i18n>

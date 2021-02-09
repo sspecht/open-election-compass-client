@@ -20,17 +20,12 @@
               {{ description }}
             </p>
           </div>
-          <div
-            v-if="$slots.default"
-            ref="content"
-            v-scroll-lock="visible"
-            class="modal__content"
-          >
+          <div v-if="$slots.default" ref="content" v-scroll-lock="visible" class="modal__content">
             <slot />
           </div>
-          <div class="modal__actions">
+          <div v-if="buttons && buttons.length > 0" class="modal__actions">
             <BaseButton
-              v-for="button in (buttons || defaultButton)"
+              v-for="button in buttons || defaultButton"
               :key="button.eventName"
               :tag="button.tag || 'button'"
               :theme="button.theme"
@@ -107,7 +102,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/styles/core";
+@import '@/styles/core';
 
 .modal__wrapper {
   position: fixed;
@@ -123,7 +118,7 @@ export default {
 }
 
 .modal__overlay {
-  background-color: rgba(#FFF, 0.75);
+  background-color: rgba(#fff, 0.75);
   position: fixed;
   top: 0;
   right: 0;
@@ -138,7 +133,7 @@ export default {
   max-height: 90vh;
   width: 100%;
   max-width: 24rem;
-  background-color: #FFF;
+  background-color: #fff;
   border-radius: $border-radius;
   box-shadow: 0 2rem 8rem 0 rgba(#000, 0.25);
   color: $theme-base-text;
@@ -221,7 +216,8 @@ export default {
   }
 }
 
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   .modal__overlay {
     transition: opacity 0.3s ease-out;
   }
@@ -229,7 +225,8 @@ export default {
     transition: opacity 0.15s ease-out, transform 0.3s ease-out;
   }
 }
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   .modal__overlay {
     opacity: 0;
   }

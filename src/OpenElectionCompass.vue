@@ -1,8 +1,8 @@
 <template>
-  <div id="oec-wrapper">
-    <div v-if="status === 'switch'">
-      <SwitchConfig :visible="status === 'switch'" />
-    </div>
+  <div v-if="status === 'switch'">
+    <SwitchConfig :visible="status === 'switch'" />
+  </div>
+  <div v-else id="oec-wrapper">
     <div
       v-if="status === 'loading' || status === 'error'"
       :class="{
@@ -77,7 +77,6 @@ export default {
    */
   mounted() {
     // Get JSON content from element attributes. Example:
-    // //7 REQUEST ON LOAD?
     // <open-election-compass load-url="https://example.com/content.json" />
     // – or –
     // <open-election-compass load-tag="#oec-content" />
@@ -104,7 +103,27 @@ export default {
           });
         }
       } else if (this.loadUrl === 'file') {
-        this.loadContentFromUrl(`configs/${key}.json`);
+        if (key !== null) {
+          this.loadContentFromUrl(`configs/${key}.json`);
+        } else {
+          const element = document.querySelector('#oec-settings');
+          this.status = 'switch';
+          if (element.tagName !== 'SCRIPT') {
+            this.status = 'error';
+            throw new Error(
+              'Please provide either a "key" url variable or add the #oec-settings tag in the index.html.'
+            );
+          }
+          const configKeyList = JSON.parse(element.text);
+          this.$store.commit('options/setConfigList', configKeyList.configs);
+          const unsubscribe = this.$store.subscribe((mutation) => {
+            if (mutation.type === 'options/setConfigKey') {
+              this.status = 'loading';
+              this.loadContentFromUrl(`configs/${this.$store.getters['options/configKey']}.json`);
+              unsubscribe();
+            }
+          });
+        }
       } else if (typeof this.loadTag === 'string' && this.loadTag.length > 0) {
         this.loadContentFromTag(this.loadTag);
       } else if (typeof this.loadUrl === 'string' && this.loadUrl.length > 0) {

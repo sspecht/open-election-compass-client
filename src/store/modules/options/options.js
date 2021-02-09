@@ -2,7 +2,8 @@ export default {
   namespaced: true,
   state: {
     kioskMode: false,
-    configKey: ""
+    configKey: "",
+    configList: []
   },
   getters: {
     kioskMode(state) {
@@ -11,6 +12,9 @@ export default {
     configKey(state) {
       return state.configKey;
     },
+    configList(state) {
+      return state.configList;
+    },
   },
   mutations: {
     setKioskMode(state, value) {
@@ -18,6 +22,9 @@ export default {
     },
     setConfigKey(state, value) {
       state.configKey = value;
+    },
+    setConfigList(state, value) {
+      state.configList = value;
     }
   },
 };
