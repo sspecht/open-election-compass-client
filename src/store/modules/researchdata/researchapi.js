@@ -7,7 +7,6 @@ const mongoDB = 'VAAHE21'
 
 const researchapiuser = () => {
   // Create an anonymous credential
-  console.log("reseachapiuser")
   const credentials = Realm.Credentials.anonymous();
   const createPseudonym = async () => {
     try {

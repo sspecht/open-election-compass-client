@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<!-- xlsx.js (C) 2013-present  SheetJS http://sheetjs.com -->
+<!-- origin: https://github.com/SheetJS/sheetjs/blob/master/index.html -->
+<!-- published originally under Apache License 2.0 -->
+<!-- modifications by OFFIS -->
+<!-- vim: set ts=2: -->
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Hessen-VAA Administration: Drop-Site für Thesen</title>
+  <style>
+    body {
+      font-family: "arial";
+    }
+
+    #drop {
+      border: 2px dashed #bbb;
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+      padding: 25px;
+      text-align: center;
+      font: 20pt bold, "arial";
+      color: #bbb;
+      margin-bottom: 1em;
+    }
+
+    #error {
+      color: red;
+    }
+
+    #ok {
+      color: green;
+    }
+
+    a {
+      text-decoration: none;
+    }
+  </style>
+  <script src="https://unpkg.com/realm-web@0.8.0/dist/bundle.iife.js"></script>
+</head>
+
+<body>
+  <!-- GUI -->
+  <h1>Hessen-VAA Administration: Drop-Site für Thesen</h1>
+  <div id="drop">Thesen-XSLX in dieses Feld ziehen...</div>
+  ...oder <input type="file" name="xlfile" id="xlf" />
+
+  <div style="display: none">
+    <b>Advanced Demo Options:</b> Use Web Workers: (when available)
+    <input type="checkbox" name="useworker" checked /> Use readAsBinaryString:
+    (when available) <input type="checkbox" name="userabs" checked />
+  </div>
+  <pre id="ok"></pre>
+  <pre id="error"></pre>
+  <pre id="out"></pre>
+  <div id="htmlout"></div>
+  <script src="./shim.js"></script>
+  <script src="./xlsx.full.min.js"></script>
+  <script type="module" src="./adminapi.js"></script>
+  <script type="module">
+    /*jshint browser:true */
+    /* eslint-env browser */
+    /* eslint no-use-before-define:0 */
+    /*global Uint8Array, Uint16Array, ArrayBuffer */
+    /*global XLSX */
+
+    import fetchConfigs from "./adminapi.js";
+
+    const logoUrlString = "/";
+    const urlString = window.location.href;
+    const url = new URL(urlString);
+    const key = url.searchParams.get('key');
+
+    if (key) {
+      fetchConfigs(key);
+    }
+
+    console.dir(key);
+
+    var X = XLSX;
+    var XW = {
+      /* worker message */
+      msg: "xlsx",
+      /* worker scripts */
+      worker: "./xlsxworker.js",
+    };
+
+    var global_wb;
+    var global_file;
+    var global_file_properties;
+    const global_positions = [
+      "starke Ablehnung",
+      "Ablehnung",
+      "Neutral",
+      "Zustimmung",
+      "starke Zustimmung",
+    ];
+    const global_parties_template = {
+      alias: "",
+      name: {
+        de: "",
+      },
+      short: {
+        de: "",
+      },
+      description: {
+        de: "",
+      },
+    };
+    const global_theses_template = {
+      title: {
+        de: ""
+      },
+      statement: {
+        de: "",
+      },
+      positions: {},
+    };
+    const global_partyposition_template = {
+      position: "",
+      explanation: {
+        de: "",
+      },
+    };
+    const global_config_template = {
+      version: "2",
+      file: "",
+      config: "",
+      name: "",
+      algorithm: "hybridVaahessen",
+      languages: [
+        {
+          name: "Deutsch",
+          code: "de",
+        },
+      ],
+      title: {
+        de: "",
+      },
+      subtitle: {
+        de: "",
+      },
+      introduction: {
+        heading: {
+          de: "",
+        },
+        text: {
+          de: "",
+        },
+      },
+      theses: [],
+      parties: [],
+      survey: {
+        districts: [],
+      },
+      "footer-links": [
+        {
+          text: {
+            de: "Über OpenElectionCompass",
+            en: "About OpenElectionCompass",
+          },
+          href: {
+            de: "https://open-election-compass.com/de/",
+            en: "https://open-election-compass.com",
+          },
+        },
+      ],
+    };
+
+    const process_wb = (function () {
+      var OUT = document.getElementById("out");
+      var ERROR = document.getElementById("error");
+      var OK = document.getElementById("ok");
+      var HTMLOUT = document.getElementById("htmlout");
+
+      var to_json = function to_json(workbook) {
+        var result = {};
+        workbook.SheetNames.forEach(function (sheetName) {
+          var roa = X.utils.sheet_to_json(workbook.Sheets[sheetName], {
+            header: 1,
+          });
+          if (roa.length) result[sheetName] = roa;
+        });
+        return result;
+      };
+
+      var check_wb = function check_wb(wb) {
+        var tests_ok = [];
+        var tests_fail = [];
+
+        var wb_object = to_json(wb);
+        var wbKommune = wb_object["Kommune"];
+        var wbThese = wb_object["Thesen"];
+        var wbParteien = wb_object["Parteien"];
+        OUT.innerHTML = "";
+
+        // CHECKS
+
+        // check sheets
+        if (
+          wb &&
+          wb.SheetNames &&
+          wb.SheetNames[0] === "Kommune" &&
+          wb.SheetNames[1] === "Thesen" &&
+          wb.SheetNames[2] === "Parteien"
+        )
+          tests_ok.push("Tabellen vorhanden.");
+        else tests_fail.push("Tabellendokument fehlerhaft.");
+        if (wbKommune === undefined) tests_fail.push("Blatt Kommune fehlt");
+        if (wbThese === undefined) tests_fail.push("Blatt Thesen fehlt");
+        if (wbParteien === undefined) tests_fail.push("Blatt Parteien fehlt");
+
+        // check sheet headers
+        var headers_kommune = [
+          "gmd_key",
+          "gmd_name",
+          "title",
+          "subtitle",
+          "introduction_heading",
+          "introduction_text",
+          "survey_districts",
+        ];
+        var headers_thesen = [
+          "these_no",
+          "these_id",
+          "these_title",
+          "these_long",
+          "gmd_key",
+          "gmd_name",
+        ];
+        var headers_parteien = [
+          "alias",
+          "name",
+          "short",
+          "logo",
+          "link_to_candlist",
+        ];
+
+        headers_kommune.forEach(function (key, index) {
+          if (wbKommune && wbKommune[0] && wbKommune[0][index] === key)
+            tests_ok.push("Zellenname vorhanden: " + key + " in Kommunen");
+          else tests_fail.push("Zellenname fehlt: " + key + " in Kommunen");
+        });
+
+        headers_parteien.forEach(function (key, index) {
+          if (wbParteien && wbParteien[0] && wbParteien[0][index] === key)
+            tests_ok.push("Zellenname vorhanden: " + key + " in Parteien");
+          else tests_fail.push("Zellenname fehlt: " + key + " in Parteien");
+        });
+
+        var wbParteienListe = [...wbParteien].splice(1).map((row) => row[0]);
+        headers_thesen.forEach(function (key, index) {
+          if (wbThese && wbThese[0] && wbThese[0][index] === key)
+            tests_ok.push("Zellenname vorhanden: " + key + " in Thesen");
+          else tests_fail.push("Zellenname fehlt: " + key + " in Thesen");
+        });
+        wbParteienListe.forEach(function (key) {
+          // check Thesen-Spalte Partei
+          if (wbThese && wbThese[0] && wbThese[0].indexOf(key) >= 0) {
+            tests_ok.push("Thesen-Spalte vorhanden: " + key);
+            // check positions (global_positions) for party and thesis
+            var partyTheseIndex = wbThese[0].indexOf(key);
+            var partyTheses = [...wbThese]
+              .splice(1)
+              .map((row) => row[partyTheseIndex]);
+            partyTheses.forEach((votum, index) => {
+              if (global_positions.indexOf(votum) < 0) {
+                tests_fail.push(
+                  "Votum " +
+                  key +
+                  " fehlerhaft bei These #" +
+                  (index + 1) +
+                  ": " +
+                  wbThese[index + 1][1]
+                );
+              }
+            });
+          } else tests_fail.push("Thesen-Spalte fehlt " + key);
+          // check Thesen-Spalte Erklärung Partei
+          if (wbThese && wbThese[0] && wbThese[0].indexOf(key + "_ex") >= 0)
+            tests_ok.push(
+              "Thesen-Spalte Erklärung vorhanden: " + key + "_ex"
+            );
+          else
+            tests_fail.push("Thesen-Spalte Erklärung fehlt " + key + "_ex");
+        });
+
+        if (ERROR.innerText === undefined)
+          ERROR.textContent = tests_fail.join("\r");
+        else ERROR.innerText = tests_fail.join("\r");
+
+        if (OK.innerText === undefined) OK.textContent = tests_ok.join("\r");
+        else OK.innerText = tests_ok.join("\r");
+
+        if (tests_fail.length > 0) return undefined;
+        else return wb_object;
+      };
+
+      return function process_wb(wb) {
+        global_wb = wb;
+        var output = "";
+
+        var checked_wb = check_wb(wb);
+
+        if (checked_wb !== undefined) {
+          console.dir(checked_wb);
+          // JSON.parse(JSON.stringify(global_config_template));
+          var wbKommune = checked_wb["Kommune"];
+          var wbThese = checked_wb["Thesen"];
+          var wbParteien = checked_wb["Parteien"];
+
+          // main config
+          var config = JSON.parse(JSON.stringify(global_config_template));
+          config.title.de = wbKommune[1][wbKommune[0].indexOf("title")];
+          config.subtitle.de = wbKommune[1][wbKommune[0].indexOf("subtitle")];
+          config.introduction.heading.de =
+            wbKommune[1][wbKommune[0].indexOf("introduction_heading")];
+          config.introduction.text.de =
+            wbKommune[1][wbKommune[0].indexOf("introduction_text")];
+          // add name & config key
+          config.name = wbKommune[1][wbKommune[0].indexOf("gmd_name")];
+          config.config = `${config.name}-${Number(Date.now() * Math.random()).toFixed(0)}`;
+
+          // survey-districts
+          var surveyDistrictIndex = wbKommune[0].indexOf("survey_districts");
+          var surveyDistricts = [...wbKommune]
+            .splice(1)
+            .map((row) => row[surveyDistrictIndex]);
+          config.survey.districts = surveyDistricts;
+
+          // input file parameters
+          config.file = global_file_properties;
+
+          // party list
+          var wbParteienListe = [...wbParteien].splice(1).map((row) => row);
+          wbParteienListe.forEach((row, index) => {
+            var party = JSON.parse(JSON.stringify(global_parties_template));
+            party.alias = row[wbParteien[0].indexOf("alias")];
+            party.name.de = row[wbParteien[0].indexOf("name")];
+            party.short.de = row[wbParteien[0].indexOf("short")];
+            party.description.de =
+              row[wbParteien[0].indexOf("link_to_candlist")];
+            party.logo = `${logoUrlString}logos/${row[wbParteien[0].indexOf("logo")]
+              }`;
+            config.parties.push(party);
+          });
+
+          var wbThesenListe = [...wbThese].splice(1).map((row) => row);
+          wbThesenListe.forEach((row, index) => {
+            var these = JSON.parse(JSON.stringify(global_theses_template));
+            these.title.de = row[wbThese[0].indexOf("these_title")];
+            these.statement.de = row[wbThese[0].indexOf("these_long")];
+            config.parties.forEach((party) => {
+              var partyPos = JSON.parse(
+                JSON.stringify(global_partyposition_template)
+              );
+              partyPos.position = row[wbThese[0].indexOf(party.alias)];
+              partyPos.explanation.de =
+                row[wbThese[0].indexOf(party.alias + "_ex")];
+              these.positions[party.alias] = partyPos;
+            });
+            config.theses.push(these);
+          });
+
+          console.dir(config);
+          console.log("saving");
+          // TODO: save to mongo app server instead
+          saveConfig(config, (key) => {
+            let outputUrl = `${window.location.protocol}//${window.location.hostname}:8080/index.html/?key=${key}`;
+            //let outputUrl = `http://192.168.0.208:8080/demo-hessen.html/?key=${key}`
+            outputHTML = `Config wurde erfolgreich mit dem Schlüssel ${key} angelegt, <a href="${outputUrl}">Link zum Wahlkompass</a>`;
+            OUT.innerHTML = outputHTML;
+          });
+        }
+        // prepare OEC config object
+      };
+    })();
+
+    var do_file = (function () {
+      var rABS =
+        typeof FileReader !== "undefined" &&
+        (FileReader.prototype || {}).readAsBinaryString;
+      var domrabs = document.getElementsByName("userabs")[0];
+      if (!rABS) domrabs.disabled = !(domrabs.checked = false);
+
+      var use_worker = typeof Worker !== "undefined";
+      var domwork = document.getElementsByName("useworker")[0];
+      if (!use_worker) domwork.disabled = !(domwork.checked = false);
+
+      var xw = function xw(data, cb) {
+        var worker = new Worker(XW.worker);
+        worker.onmessage = function (e) {
+          switch (e.data.t) {
+            case "ready":
+              break;
+            case "e":
+              console.error(e.data.d);
+              break;
+            case XW.msg:
+              cb(JSON.parse(e.data.d));
+              break;
+          }
+        };
+        worker.postMessage({ d: data, b: rABS ? "binary" : "array" });
+      };
+
+      return function do_file(files) {
+        rABS = domrabs.checked;
+        use_worker = domwork.checked;
+        var f = files[0];
+        global_file = f;
+        global_file_properties = [f.name, f.size, f.lastModifiedDate].join(
+          ", "
+        );
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          if (typeof console !== "undefined")
+            console.log("onload", new Date(), rABS, use_worker);
+          var data = e.target.result;
+          if (!rABS) data = new Uint8Array(data);
+          if (use_worker) xw(data, process_wb);
+          else process_wb(X.read(data, { type: rABS ? "binary" : "array" }));
+        };
+        if (rABS) reader.readAsBinaryString(f);
+        else reader.readAsArrayBuffer(f);
+      };
+    })();
+
+    (function () {
+      var drop = document.getElementById("drop");
+      if (!drop.addEventListener) return;
+
+      function handleDrop(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        do_file(e.dataTransfer.files);
+      }
+
+      function handleDragover(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "copy";
+      }
+
+      drop.addEventListener("dragenter", handleDragover, false);
+      drop.addEventListener("dragover", handleDragover, false);
+      drop.addEventListener("drop", handleDrop, false);
+    })();
+
+    (function () {
+      var xlf = document.getElementById("xlf");
+      if (!xlf.addEventListener) return;
+      function handleFile(e) {
+        do_file(e.target.files);
+      }
+      xlf.addEventListener("change", handleFile, false);
+    })();
+
+    function saveConfig(config, callback) {
+      const JsonString = JSON.stringify({
+        json: config,
+        title: config.title.de,
+      });
+      const xmlHttp = new XMLHttpRequest();
+      xmlHttp.open("POST", `${urlString}saveConfig`);
+      xmlHttp.setRequestHeader(
+        "Content-Type",
+        "application/json;charset=UTF-8"
+      );
+      xmlHttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          callback(JSON.parse(this.response).key);
+        }
+      };
+      xmlHttp.send(JsonString);
+    }
+  </script>
+</body>
+
+</html>

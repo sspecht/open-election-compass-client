@@ -1,5 +1,8 @@
 <template>
   <div id="oec-wrapper">
+    <div v-if="status === 'switch'">
+      <SwitchConfig :visible="status === 'switch'" />
+    </div>
     <div
       v-if="status === 'loading' || status === 'error'"
       :class="{
@@ -25,6 +28,7 @@ import _get from 'lodash/get';
 import _set from 'lodash/set';
 import Home from '@/components/views/home/Home.vue';
 import Icon from '@/components/elements/Icon.vue';
+import SwitchConfig from '@/components/views/switchconfig/SwitchConfig.vue';
 
 export default {
   name: 'OpenElectionCompass',
@@ -32,6 +36,7 @@ export default {
   components: {
     Home,
     Icon,
+    SwitchConfig,
   },
 
   data() {
@@ -81,17 +86,23 @@ export default {
       const urlString = window.location.href;
       const url = new URL(urlString);
       const key = url.searchParams.get('key');
+      this.$store.commit('languages/activateLanguage', { code: 'de' });
 
       if (this.loadUrl === 'localapi') {
         this.loadContentFromUrl(`http://localhost:8000/configs/${key}`);
       } else if (this.loadUrl === 'api') {
-        this.$store.dispatch('researchdata/requestPseudonym', { key });
-        const unsubscribe = this.$store.subscribe((mutation) => {
-          if (mutation.type === 'researchdata/setConfig') {
-            this.loadContentFromObject(this.$store.getters['researchdata/config']);
-            unsubscribe();
-          }
-        });
+        if (key !== null) {
+          this.loadConfigFromApi(key);
+        } else {
+          // no config key has been given, display selection
+          this.status = 'switch';
+          const unsubscribe = this.$store.subscribe((mutation) => {
+            if (mutation.type === 'options/setConfigKey') {
+              this.loadConfigFromApi(this.$store.getters['options/configKey']);
+              unsubscribe();
+            }
+          });
+        }
       } else if (this.loadUrl === 'file') {
         this.loadContentFromUrl(`configs/${key}.json`);
       } else if (typeof this.loadTag === 'string' && this.loadTag.length > 0) {
@@ -125,6 +136,16 @@ export default {
     },
   },
   methods: {
+    loadConfigFromApi(key) {
+      this.status = 'loading';
+      this.$store.dispatch('researchdata/requestPseudonym', { key });
+      const unsubscribe = this.$store.subscribe((mutation) => {
+        if (mutation.type === 'researchdata/setConfig') {
+          this.loadContentFromObject(this.$store.getters['researchdata/config']);
+          unsubscribe();
+        }
+      });
+    },
     loadContentFromTag(tag) {
       const element = document.querySelector(tag);
       if (element.tagName !== 'SCRIPT') {
