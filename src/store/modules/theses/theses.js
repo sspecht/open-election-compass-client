@@ -52,6 +52,7 @@ export default {
     },
     setStatus(state, { index, status }) {
       state.theses[index].status = status;
+      state.theses[index].time = Date.now();
     },
     setFactor(state, { index, factor }) {
       state.theses[index].factor = factor;

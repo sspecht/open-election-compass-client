@@ -55,7 +55,7 @@ export default {
     //     commit('setConfig', { config })
     //   });
     // },
-    
+
     exportResult({ dispatch, rootGetters }) {
       const theses = rootGetters['theses/theses'];
       const parties = rootGetters['parties/parties'];
@@ -64,12 +64,14 @@ export default {
       const algorithm = rootGetters['algorithm/algorithm'];
       const key = rootGetters['options/configKey'];
 
-      if(surveyParticipation){
+      if (surveyParticipation) {
         const statuses = algorithm.options.map((option) => option.alias);
         const thesesArray = [];
+        const thesesTiming = [];
 
         theses.forEach(thesis => {
           thesesArray.push(statuses.indexOf(thesis.status));
+          thesesTiming.push(thesis.time)
         });
 
         const partiesArray = [];
@@ -80,6 +82,7 @@ export default {
         const exportResult = {
           parties: partiesArray,
           theses: thesesArray,
+          timing: thesesTiming,
           survey: surveyResult
         }
 
