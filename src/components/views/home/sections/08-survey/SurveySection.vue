@@ -82,7 +82,6 @@ export default {
 
     finishSurvey() {
       this.updateSurveyStep(3);
-      this.sendSurvey();
       this.updateSurveyParticipation();
       setTimeout(() => {
         this.updateSurveyFinished();

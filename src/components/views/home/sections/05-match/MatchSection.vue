@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      exportResult: 'parties/exportResult',
+      exportResult: 'researchdata/exportResult',
     }),
   },
 };

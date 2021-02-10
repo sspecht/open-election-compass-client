@@ -44,45 +44,6 @@ export default {
     chose({ commit }) {
       commit('setChosen', { chosen: true });
     },
-    exportResult({ dispatch, rootGetters }) {
-      const theses = rootGetters['theses/theses'];
-      const parties = rootGetters['parties/parties'];
-      const surveyResult = rootGetters['survey/survey'];
-      const surveyParticipation = rootGetters['survey/surveyParticipation'];
-
-      let config = '';
-      const str = window.location.href;
-      const pos = str.lastIndexOf('=');
-      config = str.substr(pos + 1, str.length - pos - 1);
-      const algorithm = rootGetters['algorithm/algorithm'];
-
-      const statuses = algorithm.options.map((option) => option.alias);
-
-      const thesesArray = [];
-      theses.forEach(thesis => {
-        thesesArray.push(statuses.indexOf(thesis.status));
-      });
-
-      const partiesArray = [];
-      parties.forEach(party => {
-        partiesArray.push(party.selected)
-      })
-
-      const exportResult = {
-        parties: partiesArray,
-        theses: thesesArray,
-      }
-
-      if(surveyParticipation){
-        exportResult.survey = surveyResult;
-      }
-
-      dispatch("researchdata/storeResults", {
-        result: exportResult,
-        timestamp: Date.now(),
-        config,
-      }, { root: true });
-    },
   },
   mutations: {
     addParty(state, party) {

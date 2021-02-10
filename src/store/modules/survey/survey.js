@@ -107,20 +107,6 @@ export default {
     insertDistricts({ commit }, { districts }) {
       commit('setDistricts', districts);
     },
-    sendSurvey({ state }) {
-      const survey = {
-        geschlecht: state.geschlecht,
-        alter: state.alter,
-        bildungsabschluss: state.bildungsabschluss,
-        stadtteil: state.stadtteil,
-        wahlberechtigt: state.wahlberechtigt,
-        turnout: state.turnout,
-        vote_local: state.vote_local,
-        vote_btw: state.vote_btw,
-        polint: state.polint,
-      };
-      console.log(survey);
-    },
   },
   mutations: {
     updateSurveyParticipation(state){

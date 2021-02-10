@@ -21,20 +21,17 @@ const researchapiuser = () => {
   return createPseudonym();
 };
 
-const user = researchapiuser();
-
-export const fetchConfig = async (key) => {
-  await user;
-  const configs = app.currentUser.mongoClient(mongoClient).db(mongoDB).collection('Configs');
-  const conf = await configs.findOne({ config: key });
-  return conf;
-};
+// export const fetchConfig = async (key) => {
+//   const configs = app.currentUser.mongoClient(mongoClient).db(mongoDB).collection('Configs');
+//   const conf = await configs.findOne({ config: key });
+//   return conf;
+// };
 
 export const storeResults = async (result) => {
-  await user;
+  await researchapiuser();
   const results = app.currentUser.mongoClient(mongoClient).db(mongoDB).collection('Results');
   const resultId = await results.insertOne({ document: { pseudonym: app.currentUser.id, ...result } });
   return resultId;
 }
 
-export default fetchConfig;
+export default storeResults;
