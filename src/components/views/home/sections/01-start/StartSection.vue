@@ -15,6 +15,13 @@
       {{ $t('title') }}
     </h1>
     <p class="start-section__subtitle">{{ $t('subtitle') }}</p>
+    <p class="start-section__policies">
+      {{ $t('policies1') }}
+      <a href="https://vaa.uni-oldenburg.de/datenschutz/" target="_blank" rel="noopener">{{
+        $t('policies-link')
+      }}</a>
+      {{ $t('policies2') }}
+    </p>
   </PageSection>
 </template>
 
@@ -34,10 +41,16 @@ export default {
 <i18n>
 {
   "en": {
-    "banner-aria": "Start section"
+    "banner-aria": "Start section",
+    "policies1": "By using this you accept our",
+    "policies-link": "data protection policies",
+    "policies2": "."
   },
   "de": {
-    "banner-aria": "Startseite"
+    "banner-aria": "Startseite",
+    "policies1": "Mit der Benutzung nehmen Sie unsere",
+    "policies-link": "Erklärung zum Datenschutz",
+    "policies2": "zur Kenntnis."
   }
 }
 </i18n>
@@ -62,7 +75,7 @@ export default {
   line-height: 1.25;
   text-align: center;
   max-width: 56em;
-  margin: 2em auto 1em;
+  margin: 1em auto 1em;
   @media (min-width: 38em) {
     font-size: 2em;
   }
@@ -86,5 +99,31 @@ export default {
   @media (min-width: 64em) {
     font-size: 1.25em;
   }
+}
+
+.start-section__policies {
+  // `align-self` needed for IE11
+  align-self: center;
+  font-size: 0.7em;
+  text-align: center;
+  color: #999;
+  cursor: pointer;
+  margin-top: 0.5em;
+  @media (min-width: 48em) {
+    font-size: 1em;
+  }
+  @media (min-width: 64em) {
+    font-size: 1em;
+  }
+}
+
+.start-section__policies a {
+  color: black;
+  font-weight: bold;
+}
+
+.start-section__policies a:hover {
+  text-decoration: underline;
+  color: #999;
 }
 </style>
