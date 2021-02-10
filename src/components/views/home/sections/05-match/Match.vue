@@ -19,21 +19,24 @@
       </span>
     </div>
     <p class="match__party-description">
-      <ShowMore
-        :length="500"
-        :text="$t(`candidate-info`) + $t(`parties.${party.index}.description`)"
+      <ShowCandidateLink
+        :text="$t(`candidate-info`)"
+        :url="$t(`parties.${party.index}.description`)"
       />
+      <ShowMore v-if="false" :length="500" :text="$t(`parties.${party.index}.description`)" />
     </p>
   </div>
 </template>
 
 <script>
 import ShowMore from '@/components/elements/ShowMore.vue';
+import ShowCandidateLink from '@/components/elements/ShowCandidateLink.vue';
 
 export default {
   name: 'Match',
   components: {
     ShowMore,
+    ShowCandidateLink,
   },
   props: {
     party: {
@@ -53,11 +56,11 @@ export default {
 {
   "en": {
     "match-aria": "Your match for the party '{party}' is at {percentage} %",
-    "candidate-info": "Candidate info: "
+    "candidate-info": "Candidate info "
   },
   "de": {
     "match-aria": "Deine Übereinstimmung mit den Positionen der Partei '{party}' liegt bei {percentage} %",
-    "candidate-info": "Kandidaten-Info: "
+    "candidate-info": "Kandidaten-Steckbrief"
   }
 }
 </i18n>
