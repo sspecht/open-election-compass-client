@@ -88,6 +88,7 @@ export default {
       this.$store.commit('languages/activateLanguage', { code: 'de' });
 
       if (this.loadUrl === 'localapi') {
+        this.$store.commit('options/setConfigKey', key);
         this.loadContentFromUrl(`http://localhost:8000/configs/${key}`);
       } else if (this.loadUrl === 'api') {
         if (key !== null) {
@@ -104,6 +105,7 @@ export default {
         }
       } else if (this.loadUrl === 'file') {
         if (key !== null) {
+          this.$store.commit('options/setConfigKey', key);
           this.loadContentFromUrl(`configs/${key}.json`);
         } else {
           const element = document.querySelector('#oec-settings');
