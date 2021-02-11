@@ -27,6 +27,7 @@
     "serve": "vue-cli-service serve",
     "build": "npm run build:prod",
     "build:all": "npm run build:demo && npm run build:lib && npm run build:nuxt",
+    "build:staging": "vue-cli-service build --target app --mode staging --inline-vue --name open-election-compass --dest dist/dev",
     "build:prod": "vue-cli-service build --target app --inline-vue --name open-election-compass --dest dist",
     "build:demo": "vue-cli-service build --target app --inline-vue --name open-election-compass --dest dist/demo",
     "build:lib": "npx vue-cli-service build --target lib --inline-vue --name open-election-compass --dest dist/lib ./src/main.js --report && unlink dist/lib/demo.html",
