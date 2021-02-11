@@ -13,37 +13,57 @@ export default {
     },
   },
   render(createElement, { props }) {
-    let nodes = props.text.split(/(\[.*\]<.*>)/);
-    nodes = nodes.map((node) => {
-      const matches = node.match(/\[(.*)\]<(.*)>/);
-      if (props.disabled && matches !== null) {
-        return matches[1];
+    const textSections = props.text.split('>');
+    const sections = textSections.map((section, index, all) => {
+      if (index < all.length - 1) {
+        return `${section}>`;
       }
-      if (matches === null) {
-        return node;
-      }
-      return createElement('span', {
-        class: 'definitions__expression',
-        attrs: {
-          content: `${matches[1]}: ${matches[2]}`,
-        },
-        directives: [
-          {
-            name: 'tooltip',
-            value: {
-              allowHTML: false,
-              distance: 10,
-              hideOnClick: false,
-              size: 'large',
-              theme: 'left',
-            },
-          },
-        ],
-      }, [matches[1]]);
+      return section;
     });
-    return createElement('span', {
-      class: 'definitions',
-    }, nodes);
+
+    const nodes = sections.map((section) => {
+      const sectionNodes = section.split(/(\[.*\]<.*>)/);
+      return sectionNodes
+        .map((node) => {
+          const matches = node.match(/\[(.*)\]<(.*)>/);
+          if (props.disabled && matches !== null) {
+            return matches[1];
+          }
+          if (matches === null) {
+            return node;
+          }
+          return createElement(
+            'span',
+            {
+              class: 'definitions__expression',
+              attrs: {
+                content: `${matches[1]}: ${matches[2]}`,
+              },
+              directives: [
+                {
+                  name: 'tooltip',
+                  value: {
+                    allowHTML: false,
+                    distance: 10,
+                    hideOnClick: false,
+                    size: 'large',
+                    theme: 'left',
+                  },
+                },
+              ],
+            },
+            [matches[1]]
+          );
+        })
+        .filter((node) => node !== '');
+    });
+    return createElement(
+      'span',
+      {
+        class: 'definitions',
+      },
+      Array.prototype.concat.apply([], nodes)
+    );
   },
 };
 </script>
