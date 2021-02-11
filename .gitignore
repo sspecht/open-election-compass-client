@@ -12,6 +12,8 @@ chromedriver.log
 geckodriver.log
 
 # local env files
+.env*
+!.env.example
 .env.local
 .env.*.local
 

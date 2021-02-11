@@ -217,7 +217,7 @@
           "these_no",
           "these_id",
           "these_title",
-          "these_long",       
+          "these_long",
         ];
         var headers_parteien = [
           "alias",
@@ -354,7 +354,7 @@
           });
 
           // emit download
-          var dataString = "data:text/json;charset=utf-8," + JSON.stringify(config);
+          var dataString = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(config));
           var downloadAnchorElem = document.getElementById('downloadAnchorElem');
           downloadAnchorElem.setAttribute("href", dataString);
           downloadAnchorElem.setAttribute("download", config.name + ".json");
@@ -442,25 +442,6 @@
       }
       xlf.addEventListener("change", handleFile, false);
     })();
-
-    /* function saveConfig(config, callback) {
-      const JsonString = JSON.stringify({
-        json: config,
-        title: config.title.de,
-      });
-      const xmlHttp = new XMLHttpRequest();
-      xmlHttp.open("POST", `${urlString}saveConfig`);
-      xmlHttp.setRequestHeader(
-        "Content-Type",
-        "application/json;charset=UTF-8"
-      );
-      xmlHttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          callback(JSON.parse(this.response).key);
-        }
-      };
-      xmlHttp.send(JsonString);
-    } */
   </script>
 </body>
 

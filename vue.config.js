@@ -4,22 +4,7 @@ module.exports = {
       entry: 'src/main.js',
       template: 'public/index.html',
       filename: 'index.html',
-    },
-    'demo-hybrid': {
-      entry: 'src/main.js',
-      template: 'public/demo-hybrid.html',
-      filename: 'demo-hybrid.html',
-    },
-    'demo-luedenscheid': {
-      entry: 'src/main.js',
-      template: 'public/demo-luedenscheid.html',
-      filename: 'demo-luedenscheid.html',
-    },
-    'demo-hogwarts': {
-      entry: 'src/main.js',
-      template: 'public/demo-hogwarts.html',
-      filename: 'demo-hogwarts.html',
-    },
+    }
   },
 
   publicPath: process.env.NODE_ENV === 'production' ? '' : '/',

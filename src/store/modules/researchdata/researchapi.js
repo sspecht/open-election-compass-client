@@ -1,9 +1,9 @@
 import * as Realm from 'realm-web';
 
-const appId = 'triggers_realmapp-trcon';
+const appId = process.env.VUE_APP_API_APPID;
 const app = new Realm.App({ id: appId });
-const mongoClient = 'Cluster0';
-const mongoDB = 'VAAHE21'
+const mongoClient = process.env.VUE_APP_API_MONGOCLIENT;
+const mongoDB = process.env.VUE_APP_API_MONGODB;
 
 const researchapiuser = () => {
   // Create an anonymous credential
