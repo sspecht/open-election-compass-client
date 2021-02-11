@@ -5,8 +5,8 @@
         Dürfen wir Sie um etwas bitten?
       </h2>
       <p class="survey-section__text">
-        Wenn Sie uns hier ein paar Daten spenden, bringt das unsere Forschung sehr viel weiter. Alle
-        Daten werden anonym behandelt!
+        Würden Sie uns drei Minuten Ihrer Zeit und ein paar Daten spenden? Damit unterstützen Sie
+        unsere Forschung. Alle Daten werden anonym erhoben und behandelt.
       </p>
     </div>
     <div v-if="surveyStep == 3">
@@ -73,7 +73,7 @@ export default {
     ...mapMutations('survey', {
       updateSurveyStep: 'updateSurveyStep',
       updateSurveyFinished: 'updateSurveyFinished',
-      updateSurveyParticipation: 'updateSurveyParticipation'
+      updateSurveyParticipation: 'updateSurveyParticipation',
     }),
 
     ...mapActions('survey', {
@@ -81,6 +81,8 @@ export default {
     }),
 
     finishSurvey() {
+      this.$store.commit('sections/markSectionAsCompleted', 'survey');
+      this.$store.dispatch('sections/enableGuideButton');
       this.updateSurveyStep(3);
       this.updateSurveyParticipation();
       setTimeout(() => {

@@ -1,8 +1,10 @@
 <template>
-  <div :class="{
-    'skip-button': true,
-    'skip-button--disabled': disabled,
-  }">
+  <div
+    :class="{
+      'skip-button': true,
+      'skip-button--disabled': disabled,
+    }"
+  >
     <div class="skip-button__tooltip-wrapper">
       <!--
         Because IE11 cannot properly position the button using flexbox and other positioning methods
@@ -77,6 +79,7 @@ export default {
 <style lang="scss">
 .skip-button {
   text-align: right;
+  font-size: 1.25em;
 }
 .skip-button__tooltip-wrapper {
   text-align: left;

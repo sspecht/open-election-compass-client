@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="survey-section__heading">Umfrage Seite 2/2</h2>
+    <h2 class="survey-section__heading">Umfrage (Seite 2 von 2)</h2>
     <div class="umfragePart" v-if="wahlberechtigt == 1">
       <label class="umfragelabel" for="turnout">
         Haben Sie vor sich an der<br />
@@ -105,7 +105,7 @@ export default {
       updateVote_btw: 'updateVote_btw',
       updatePolint: 'updatePolint',
     }),
-    
+
     handleTurnoutChange(event) {
       this.updateTurnout(event.target.value);
     },

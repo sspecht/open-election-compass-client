@@ -6,7 +6,7 @@
       <KioskModeHint v-if="kioskMode" />
     </PageSection>
     <PageSection
-      v-for="(thesis) in theses"
+      v-for="thesis in theses"
       :key="thesis.index"
       class="compare-section__theses"
       role="region"
@@ -20,9 +20,7 @@
         :factor="thesis.factor"
         :badge="true"
       />
-      <template
-        v-for="result in results"
-      >
+      <template v-for="result in results">
         <Answer
           :key="`${thesis.index}-${result.party.index}`"
           :party="result.party"
@@ -74,7 +72,7 @@ export default {
   },
   "de": {
     "heading": "Die Antworten",
-    "explanation": "Die Parteien stellen üblicherweise eine Erklärung zu jeder Entscheidung bereit. Da es nicht immer offensichtlich ist, warum eine Partei eine bestimmte Position vertritt, empfiehlt es sich, diese Erklärungen oder die jeweiligen Wahlprogramme zu lesen.",
+    "explanation": "Die Parteien und Listen stellen häufig eine genauere Erklärung ihrer Position bereit. Es empfiehlt sich, diese Erklärungen oder die jeweiligen Wahlprogramme zu lesen.",
     "region-aria": "These {count} von {total}"
   }
 }

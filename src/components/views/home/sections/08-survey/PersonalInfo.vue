@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="survey-section__heading">Umfrage Seite 1/2</h2>
+    <h2 class="survey-section__heading">Umfrage (Seite 1 von 2)</h2>
     <div class="umfragePart">
       <label class="umfragelabel" for="gender">Bitte geben Sie Ihr Geschlecht an</label>
       <select name="gender" @change="handleGenderChange($event)" class="umfrageSelect">
@@ -15,7 +15,7 @@
       </select>
     </div>
     <div class="umfragePart">
-      <label class="umfragelabel" for="age">Wie alt sind sie?</label>
+      <label class="umfragelabel" for="age">Wie alt sind Sie?</label>
       <input
         type="number"
         id="quantity"
@@ -96,7 +96,13 @@ export default {
       wahlberechtigtOptions: 'survey/wahlberechtigtOptions',
     }),
 
-    ...mapState('survey', ['geschlecht', 'alter', 'bildungsabschluss', 'stadtteil', 'wahlberechtigt']),
+    ...mapState('survey', [
+      'geschlecht',
+      'alter',
+      'bildungsabschluss',
+      'stadtteil',
+      'wahlberechtigt',
+    ]),
   },
   methods: {
     ...mapMutations('survey', {

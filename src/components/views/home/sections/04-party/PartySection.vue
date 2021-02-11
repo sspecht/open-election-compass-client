@@ -76,8 +76,8 @@ export default {
     "proceed": "Done"
   },
   "de": {
-    "heading": "Wähle die zu vergleichenden Parteien",
-    "instruction": "Bitte wähle die Parteien aus, mit denen du deine eigenen Entscheidungen vergleichen möchtest. Du kannst beliebig viele Parteien auswählen, jedoch mindestens zwei. Die Reihenfolge der Liste orientiert sich an der Reihenfolge der Parteien auf dem Wahlzettel.",
+    "heading": "Auswahl der Parteien und Listen zum Vergleich",
+    "instruction": "Bitte wählen Sie die Parteien aus, mit denen Sie Ihre eigenen Positionen vergleichen möchten. Sie können beliebig viele Parteien auswählen, jedoch mindestens zwei.",
     "proceed": "Fertig"
   }
 }

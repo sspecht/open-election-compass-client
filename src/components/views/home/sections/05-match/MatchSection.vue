@@ -5,6 +5,11 @@
     </h2>
     <p class="match-section__explanation">
       {{ $t('explanation') }}
+      {{ $t('detail') }}
+      <a href="https://vaa.uni-oldenburg.de/wie-wir-arbeiten" target="_blank" rel="noopener">{{
+        $t('detail-linktext')
+      }}</a>
+      {{ $t('detail-end') }}
     </p>
     <ul role="list">
       <li
@@ -16,10 +21,10 @@
       </li>
     </ul>
     <br />
-    <h2 class="match-section__heading">
+    <h2 class="match-section__heading" v-if="results.filter((r) => !r.party.selected).length > 0">
       {{ $t('heading_others') }}
     </h2>
-    <ul role="list">
+    <ul role="list" v-if="results.filter((r) => !r.party.selected).length > 0">
       <li
         v-for="{ party, percentage } of results.filter((r) => !r.party.selected)"
         :key="party.alias"
@@ -69,9 +74,12 @@ export default {
     "heading_others": "And these are your results with the other parties"
   },
   "de": {
-    "heading": "Dein Ergebnis",
-    "explanation": "Dieses Diagramm zeigt an, wie sehr du und die jeweiligen Parteien bzgl. der obigen Thesen übereinstimmt. Je höher die Prozentzahl, desto ähnlicher sind eure Positionen. Denke daran, dass dies keine Wahl-Empfehlung ist, sondern nur ein Werkzeug der Orientierung und Diskussion.",
-    "heading_others": "Und hier Dein Ergebnis mit den weiteren Parteien"
+    "heading": "Ihr Ergebnis",
+    "explanation": "Hier sehen Sie, wie sehr Ihre persönlichen Positionen denen der einzelnen Parteien ähneln. Je höher die Prozentzahl, desto ähnlicher sind sich die Positionen. Bitte beachten Sie, dass dies keine Wahlempfehlung ist, sondern nur ein Informations- und Orientierungsangebot. ",
+    "detail": "Näheres erfahren Sie in unserer",
+    "detail-linktext": "Methodik",
+    "detail-end": " (Öffnet in neuer Seite).",
+    "heading_others": "Und hier Ihr Ergebnis mit den weiteren Parteien"
   }
 }
 </i18n>
@@ -88,5 +96,15 @@ export default {
 
 .match-section__explanation {
   margin-bottom: 2.5em;
+}
+
+.match-section__explanation a {
+  color: black;
+  font-weight: bold;
+}
+
+.match-section__explanation a:hover {
+  text-decoration: underline;
+  color: #999;
 }
 </style>
