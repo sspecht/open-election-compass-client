@@ -1,7 +1,7 @@
 export default {
   options: [
     {
-      alias: 'starke Zustimmung',
+      alias: 'Starke Zustimmung',
       direction: 'positive',
       icon: 'grin',
       colors: {
@@ -117,7 +117,7 @@ export default {
       },
     },
     {
-      alias: 'starke Ablehnung',
+      alias: 'Starke Ablehnung',
       direction: 'negative',
       icon: 'frown',
       colors: {
