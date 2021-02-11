@@ -354,10 +354,10 @@
           });
 
           // emit download
-          var dataString = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(config));
+          var dataString = "data:text/json;charset=utf-8," + JSON.stringify(config);
           var downloadAnchorElem = document.getElementById('downloadAnchorElem');
           downloadAnchorElem.setAttribute("href", dataString);
-          downloadAnchorElem.setAttribute("download", encodeURIComponent(config.name) + ".json");
+          downloadAnchorElem.setAttribute("download", config.name + ".json");
           downloadAnchorElem.click();
         }
       };
