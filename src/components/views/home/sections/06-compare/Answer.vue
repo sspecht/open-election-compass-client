@@ -43,6 +43,11 @@ export default {
     skipped() {
       return this.position === null || this.position === 'skip';
     },
+    missingExplanation() {
+      return (
+        this.$t(`theses.${this.thesis.index}.positions.${this.party.alias}.explanation`) === ''
+      );
+    },
     option() {
       if (this.skipped) {
         return {
@@ -55,6 +60,11 @@ export default {
     content() {
       if (this.skipped) {
         return this.$t('skip.content', { party: this.$t(`parties.${this.party.index}.name`) });
+      }
+      if (this.missingExplanation) {
+        return this.$t('skip.noexplanation', {
+          party: this.$t(`parties.${this.party.index}.name`),
+        });
       }
       return this.$t(`theses.${this.thesis.index}.positions.${this.party.alias}.explanation`);
     },
@@ -85,10 +95,7 @@ export default {
       });
     },
     classes() {
-      return [
-        'answer',
-        `answer--${this.option.direction}`,
-      ];
+      return ['answer', `answer--${this.option.direction}`];
     },
   },
 };
@@ -98,7 +105,8 @@ export default {
 .answer {
   margin-top: 3em;
   @media (min-width: 64em) {
-    &.answer--positive, &.answer--negative {
+    &.answer--positive,
+    &.answer--negative {
       margin-top: 6em;
     }
     &.answer--neutral {
@@ -114,13 +122,15 @@ export default {
   "en": {
     "skip": {
       "status-text": "unknown",
-      "content": "The party '{party}' did not provide any answers or position regarding this thesis."
+      "content": "The party '{party}' did not provide any answers or position regarding this thesis.",
+      "noexplanation": "The party '{party}' did not provide any explanation position regarding this thesis."
     }
   },
   "de": {
     "skip": {
       "status-text": "unbekannt",
-      "content": "Die Partei '{party}' hat keine Position oder Begründung für diese These bereitgestellt."
+      "content": "Die Partei '{party}' hat keine Position oder Begründung für diese These bereitgestellt.",
+      "noexplanation": "Die Partei '{party}' hat keine Begründung für diese These bereitgestellt."
     }
   }
 }
