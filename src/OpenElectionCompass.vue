@@ -234,12 +234,18 @@ export default {
         });
       }
 
-      // //7 Extract Survey from content
+      // Extract Survey from content
       const survey = _get(content, 'survey', undefined);
       if (survey && survey.districts) {
         this.$store.dispatch('survey/insertDistricts', {
           districts: survey.districts,
         });
+      }
+
+      // store config metadata
+      const configId = _get(content, 'config', undefined);
+      if (configId) {
+        this.$store.commit('options/setConfigId', configId);
       }
 
       // Set up algorithm

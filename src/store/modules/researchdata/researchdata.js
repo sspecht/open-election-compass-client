@@ -34,27 +34,6 @@ export default {
     }
   },
   actions: {
-    // requestPseudonym({ commit }, { key }) {
-    //   commit('setKey', { key })
-    //   // Create an anonymous credential
-    //   /* const appId = 'triggers_realmapp-trcon';
-    //   const app = new Realm.App({ id: appId });
-    //   const credentials = Realm.Credentials.anonymous();
-    //   const createPseudonym = async () => {
-    //     try {
-    //       const usr = await app.logIn(credentials);
-    //       return usr;
-    //     } catch (err) {
-    //       console.error('Failed to create pseudonym', err);
-    //     }
-    //     return null;
-    //   };
-    //   */
-
-    //   fetchConfig(key).then((config) => {
-    //     commit('setConfig', { config })
-    //   });
-    // },
 
     exportResult({ dispatch, rootGetters }) {
       const theses = rootGetters['theses/theses'];
@@ -62,7 +41,7 @@ export default {
       const surveyResult = rootGetters['survey/survey'];
       const surveyParticipation = rootGetters['survey/surveyParticipation'];
       const algorithm = rootGetters['algorithm/algorithm'];
-      const key = rootGetters['options/configKey'];
+      const key = rootGetters['options/configId'];
 
       if (surveyParticipation) {
         const statuses = algorithm.options.map((option) => option.alias);

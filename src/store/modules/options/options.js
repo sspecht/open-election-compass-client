@@ -3,7 +3,8 @@ export default {
   state: {
     kioskMode: false,
     configKey: "",
-    configList: []
+    configList: [],
+    configId: ""
   },
   getters: {
     kioskMode(state) {
@@ -15,6 +16,9 @@ export default {
     configList(state) {
       return state.configList;
     },
+    configId(state) {
+      return state.configId;
+    }
   },
   mutations: {
     setKioskMode(state, value) {
@@ -25,6 +29,9 @@ export default {
     },
     setConfigList(state, value) {
       state.configList = value;
+    },
+    setConfigId(state, value) {
+      state.configId = value;
     }
   },
 };
