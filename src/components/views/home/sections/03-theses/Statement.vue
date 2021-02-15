@@ -8,14 +8,13 @@
     :style="cssVariables"
   >
     <!-- Counter and Title -->
-    <small :class="{
-      'statement__caption': true,
-      'statement__caption--counter-only': !$root.$te(`theses.${index}.title`),
-    }">
-      <span
-        class="statement__counter"
-        aria-hidden="true"
-      >
+    <small
+      :class="{
+        statement__caption: true,
+        'statement__caption--counter-only': !$root.$te(`theses.${index}.title`),
+      }"
+    >
+      <span class="statement__counter" aria-hidden="true">
         {{ $t('thesis', { count: index + 1, total }) }}
       </span>
       <span v-if="$root.$te(`theses.${index}.title`)" class="statement__title">
@@ -31,7 +30,11 @@
       <span class="statement__quote-start" aria-hidden="true">
         <span>{{ $t('quoteStart') }}</span>
       </span>
-      <Definitions :text="$t(`theses.${index}.statement`)" /><span class="statement__quote-end" aria-hidden="true">{{ $t('quoteEnd') }}</span><!-- eslint-disable-line max-len -->
+      <Definitions :text="$t(`theses.${index}.statement`)" /><span
+        class="statement__quote-end"
+        aria-hidden="true"
+        >{{ $t('quoteEnd') }}</span
+      ><!-- eslint-disable-line max-len -->
     </h3>
 
     <!-- Badges -->
@@ -207,15 +210,16 @@ export default {
     max-width: 42rem;
   }
   @media (min-width: 48em) {
-    font-size: 2.25em;
+    font-size: 2em;
   }
   @media (min-width: 64em) {
-    font-size: 3em;
+    font-size: 2.25em;
     max-width: 48rem;
   }
 }
 
-.statement.statement--status-empty, .statement.statement--status-skip {
+.statement.statement--status-empty,
+.statement.statement--status-skip {
   .statement__thesis {
     color: var(--theme-primary-color);
   }
@@ -229,7 +233,7 @@ export default {
   color: #e2e8f0;
   span {
     position: absolute;
-    right:100%;
+    right: 100%;
   }
 }
 
