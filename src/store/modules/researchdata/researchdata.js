@@ -47,9 +47,12 @@ export default {
         const statuses = algorithm.options.map((option) => option.alias);
         const thesesArray = [];
         const thesesTiming = [];
-
+        
         theses.forEach(thesis => {
-          thesesArray.push(statuses.indexOf(thesis.status));
+          thesesArray.push({
+            'status' : statuses.indexOf(thesis.status),
+            'important' : thesis.factor > 1,
+          });
           thesesTiming.push(thesis.time)
         });
 
