@@ -143,6 +143,7 @@
       parties: [],
       survey: {
         districts: [],
+        parties: []
       },
       "footer-links": [
         {
@@ -220,6 +221,7 @@
           "introduction_heading",
           "introduction_text",
           "survey_districts",
+          "survey_parties"
         ];
         var headers_thesen = [
           "gmd_key",
@@ -327,7 +329,16 @@
           var surveyDistricts = [...wbKommune]
             .splice(1)
             .map((row) => row[surveyDistrictIndex]);
-          config.survey.districts = surveyDistricts;
+          config.survey.districts = surveyDistricts.filter(district => district !== undefined);
+
+          // survey-parties
+          var surveyPartiesIndex = wbKommune[0].indexOf("survey_parties");
+          var surveyParties = [...wbKommune]
+            .splice(1)
+            .map((row) => row[surveyPartiesIndex]);
+          config.survey.parties = surveyParties.filter(party => party !== undefined);
+
+          console.dir(config.survey)
 
           // input file parameters
           config.file = global_file_properties;
