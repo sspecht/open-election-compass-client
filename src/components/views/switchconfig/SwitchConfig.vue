@@ -12,7 +12,12 @@
     >
       <ul class="config-switch__menu" role="menu">
         <li v-for="config in configs" :key="config.key" class="config-switch__item" role="menuitem">
-          <BaseButton theme="neutral" text-align="left" @click="activateConfig(config.key)">
+          <BaseButton
+            theme="neutral"
+            text-align="left"
+            @click="activateConfig(config.key)"
+            :disabled="config.key === ''"
+          >
             {{ config.name }}
           </BaseButton>
         </li>
