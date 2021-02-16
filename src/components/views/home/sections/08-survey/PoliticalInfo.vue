@@ -37,11 +37,11 @@
         <option value="''" :selected="vote_local == ''"></option>
         <option
           v-for="party in parties"
-          :key="party.index"
-          :value="party.alias"
-          :selected="vote_local == party.alias"
+          :key="party"
+          :value="party"
+          :selected="vote_local == party"
         >
-          {{ $t(`parties.${party.index}.short`) }}
+          {{ `${party}` }}
         </option>
       </select>
     </div>
@@ -90,7 +90,7 @@ export default {
   computed: {
     // console: () => console,
     ...mapGetters({
-      parties: 'parties/parties',
+      parties: 'survey/parties',
       turnoutOptions: 'survey/turnoutOptions',
       voteBtwOptions: 'survey/voteBtwOptions',
       polintOptions: 'survey/polintOptions',

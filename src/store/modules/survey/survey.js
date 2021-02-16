@@ -14,65 +14,66 @@ export default {
     polint: 0,
     stadtteil: '',
     districts: undefined,
+    parties: undefined,
     geschlechtOptions:
-    [
-      '',
-      'weiblich',
-      'männlich',
-      'divers',
-      'keine Angabe',
-    ],
+      [
+        '',
+        'weiblich',
+        'männlich',
+        'divers',
+        'keine Angabe',
+      ],
     abschlussOptions:
-    [
-      '',
-      'Schule ohne Abschluss beendet',
-      'Hauptschulabschluss, Volksschulabschluss Abschluss der polytechnischen Oberschule 8. oder 9. Klasse',
-      'Realschulabschluss, Mittlere Reife, Fachschulreife oder Abschluss der polytechnischen Oberschule 10. Klasse',
-      'Fachhochschulreife (Abschluss einer Fachoberschule etc.)',
-      'Abitur bzw. erweiterte Oberschule mit Abschluss 12. Klasse (Hochschulreife)',
-      'bin noch Schüler',
-      'keine Angabe',
-    ],
+      [
+        '',
+        'Schule ohne Abschluss beendet',
+        'Hauptschulabschluss, Volksschulabschluss Abschluss der polytechnischen Oberschule 8. oder 9. Klasse',
+        'Realschulabschluss, Mittlere Reife, Fachschulreife oder Abschluss der polytechnischen Oberschule 10. Klasse',
+        'Fachhochschulreife (Abschluss einer Fachoberschule etc.)',
+        'Abitur bzw. erweiterte Oberschule mit Abschluss 12. Klasse (Hochschulreife)',
+        'bin noch Schüler',
+        'keine Angabe',
+      ],
     wahlberechtigtOptions:
-    [
-      '',
-      'ja',
-      'nein',
-    ],
+      [
+        '',
+        'ja',
+        'nein',
+      ],
     turnoutOptions:
-    [
-      '',
-      'Ja, ich gehe wählen',
-      'Ich bin mir noch nicht sicher',
-      'Nein, ich werde nicht wählen gehen',
-    ],
+      [
+        '',
+        'Ja, ich gehe wählen',
+        'Ich bin mir noch nicht sicher',
+        'Nein, ich werde nicht wählen gehen',
+      ],
     voteBtwOptions:
-    [
-      '',
-      'CDU',
-      'SPD',
-      'AfD',
-      'Bündnis 90/Die Grünen',
-      'FDP',
-      'Die Linke',
-      'Eine andere Partei',
-      'Ich würde nicht wählen gehen',
-    ],
+      [
+        '',
+        'CDU',
+        'SPD',
+        'AfD',
+        'Bündnis 90/Die Grünen',
+        'FDP',
+        'Die Linke',
+        'Eine andere Partei',
+        'Ich würde nicht wählen gehen',
+      ],
     polintOptions:
-    [
-      '',
-      'sehr stark',
-      'stark',
-      'mittelmäßig',
-      'weniger stark',
-      'überhaupt nicht',
-    ],
+      [
+        '',
+        'sehr stark',
+        'stark',
+        'mittelmäßig',
+        'weniger stark',
+        'überhaupt nicht',
+      ],
   },
   getters: {
-    survey(state){
+    survey(state) {
       return [state.geschlecht, state.alter, state.bildungsabschluss, state.stadtteil, state.wahlberechtigt, state.turnout, state.vote_local, state.vote_btw, state.polint];
     },
-    surveyParticipation(state){
+    surveyParticipation(state) {
       return state.surveyParticipation
     },
     finished(state) {
@@ -83,6 +84,9 @@ export default {
     },
     districts(state) {
       return state.districts;
+    },
+    parties(state) {
+      return state.parties;
     },
     geschlechtOptions(state) {
       return state.geschlechtOptions;
@@ -107,9 +111,12 @@ export default {
     insertDistricts({ commit }, { districts }) {
       commit('setDistricts', districts);
     },
+    insertParties({ commit }, { parties }) {
+      commit('setParties', parties);
+    },
   },
   mutations: {
-    updateSurveyParticipation(state){
+    updateSurveyParticipation(state) {
       state.surveyParticipation = true;
     },
     updateSurveyFinished(state) {
@@ -119,6 +126,11 @@ export default {
       state.districts = ['', ...districts];
       const d = state.districts[0];
       state.stadtteil = d;
+    },
+    setParties(state, parties) {
+      state.parties = ['', ...parties];
+      const d = state.parties[0];
+      state.vote_local = d;
     },
     updateSurveyStep(state, step) {
       state.surveyStep = step;

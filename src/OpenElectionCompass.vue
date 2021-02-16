@@ -241,6 +241,11 @@ export default {
           districts: survey.districts,
         });
       }
+      if (survey && survey.parties) {
+        this.$store.dispatch('survey/insertParties', {
+          parties: survey.parties,
+        });
+      }
 
       // store config metadata
       const configId = _get(content, 'config', undefined);
