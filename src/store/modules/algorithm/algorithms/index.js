@@ -3,6 +3,7 @@ import cityblockApprovePartlyReject from './cityblock/approve-partly-reject';
 import cityblockApprovePartlyLittleReject from './cityblock/approve-partly-little-reject';
 import hybrid from './hybrid/hybrid';
 import hybridVaahessen from './hybrid/hybrid-vaahessen';
+import fiveVaahessen from './cityblock/five-vaahessen';
 
 export default {
   'cityblock/approve-neutral-reject': cityblockApproveNeutralReject,
@@ -10,4 +11,5 @@ export default {
   'cityblock/approve-partly-little-reject': cityblockApprovePartlyLittleReject,
   hybrid,
   hybridVaahessen,
+  fiveVaahessen
 };
