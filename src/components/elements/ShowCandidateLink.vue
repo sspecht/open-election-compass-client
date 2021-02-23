@@ -1,9 +1,13 @@
 <template>
   <div class="show-more" :aria-label="text">
     <span>
-      <a :href="`/candidates/${url}`" target="_blank" rel="noopener" class="show-more__toggle">{{
-        text
-      }}</a>
+      <a
+        :href="`https://kommunalwahlkompass.de/candidates/${url}`"
+        target="_blank"
+        rel="noopener"
+        class="show-more__toggle"
+        >{{ text }}</a
+      >
       {{ $t('newtab') }}
     </span>
   </div>

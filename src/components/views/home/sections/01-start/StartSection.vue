@@ -17,9 +17,12 @@
     <p class="start-section__subtitle">{{ $t('subtitle') }}</p>
     <p class="start-section__policies">
       {{ $t('policies1') }}
-      <a href="https://vaa.uni-oldenburg.de/datenschutz/" target="_blank" rel="noopener">{{
-        $t('policies-link')
-      }}</a>
+      <a
+        href="https://kommunalwahlkompass.de/datenschutzerklaerung/"
+        target="_blank"
+        rel="noopener"
+        >{{ $t('policies-link') }}</a
+      >
       {{ $t('policies2') }}
     </p>
   </PageSection>
